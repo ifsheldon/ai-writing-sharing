@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Orality Paper Sharing",
+  title: "AI × Research Writing",
   description:
-    "A research group paper sharing deck for Orality and related CHI 2026 papers.",
+    "Practical suggestions for writing and revising research papers with AI. A 17-slide session for visualization and HCI researchers.",
 };
 
 export default function RootLayout({

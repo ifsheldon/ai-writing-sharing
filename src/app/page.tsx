@@ -3,751 +3,423 @@
 import {
   ArrowLeft,
   ArrowRight,
+  Check,
+  Copy,
   Expand,
+  LayoutGrid,
+  Minimize,
   NotebookTabs,
-  PanelRightClose,
-  PanelRightOpen,
+  Presentation,
+  X,
 } from "lucide-react";
-import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { slides } from "./deck-data";
 import {
-  type CSSProperties,
-  type RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  type SlideFigure,
-  type SlidePoint,
-  type SlideTemplate,
-  sectionOrder,
-  slideTemplates,
-  templatePrinciples,
-} from "./deck-data";
-import {
-  PRESENTER_NOTES_CHANNEL,
-  PRESENTER_NOTES_STORAGE_KEY,
-  type PresenterNotesState,
+  copyPromptText,
+  openPresenterChannel,
+  PRESENTER_NOTES_REQUEST,
+  publishPresenterSlideId,
+  readSlideIdFromHash,
 } from "./presenter-notes-state";
+import { SlideContent } from "./slide-content";
+import type { Slide } from "./slide-types";
+
+type DialogKind = "overview" | "notes" | "prompt";
+type CopyStatus = "idle" | "copied" | "failed";
+const sections = Array.from(new Set(slides.map((slide) => slide.section)));
 
 export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [notesOpen, setNotesOpen] = useState(false);
-  const activeSlide = slideTemplates[activeIndex];
+  const [selectedIndex, setActiveIndex] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [dialog, setDialog] = useState<DialogKind | null>(null);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [notice, setNotice] = useState("");
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const notesWindowRef = useRef<Window | null>(null);
-  const notesChannelRef = useRef<BroadcastChannel | null>(null);
-  const progress = ((activeIndex + 1) / slideTemplates.length) * 100;
-
-  const currentSectionPosition = useMemo(
-    () => sectionOrder.indexOf(activeSlide.section),
-    [activeSlide.section],
-  );
+  const channelRef = useRef<BroadcastChannel | null>(null);
+  const activeIndex = Math.min(selectedIndex, slides.length - 1);
+  const activeSlide = slides[activeIndex];
 
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      if (
-        target?.tagName === "INPUT" ||
-        target?.tagName === "TEXTAREA" ||
-        target?.isContentEditable
-      ) {
-        return;
-      }
-
-      if (event.key === "ArrowRight" || event.key.toLowerCase() === "n") {
-        event.preventDefault();
-        setActiveIndex((index) =>
-          Math.min(index + 1, slideTemplates.length - 1),
-        );
-      }
-
-      if (event.key === "ArrowLeft" || event.key.toLowerCase() === "p") {
-        event.preventDefault();
-        setActiveIndex((index) => Math.max(index - 1, 0));
-      }
-
-      if (event.key === "Home") {
-        event.preventDefault();
-        setActiveIndex(0);
-      }
-
-      if (event.key === "End") {
-        event.preventDefault();
-        setActiveIndex(slideTemplates.length - 1);
-      }
+    const restoreHash = () => {
+      const id = readSlideIdFromHash();
+      setActiveIndex(id ? slides.findIndex((slide) => slide.id === id) : 0);
     };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    restoreHash();
+    setReady(true);
+    window.addEventListener("hashchange", restoreHash);
+    const channel = openPresenterChannel();
+    channelRef.current = channel;
+    if (channel) {
+      channel.onmessage = (event: MessageEvent<unknown>) => {
+        if (event.data === PRESENTER_NOTES_REQUEST) {
+          channel.postMessage(readSlideIdFromHash() ?? slides[0].id);
+        }
+      };
+    }
+    return () => {
+      window.removeEventListener("hashchange", restoreHash);
+      channel?.close();
+      channelRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
-    publishPresenterNotes(activeSlide, activeIndex, notesChannelRef);
-  }, [activeIndex, activeSlide]);
+    if (!ready) return;
+    window.history.replaceState(null, "", `#${activeSlide.id}`);
+    publishPresenterSlideId(activeSlide.id, channelRef.current);
+  }, [activeSlide.id, ready]);
 
-  useEffect(
-    () => () => {
-      notesChannelRef.current?.close();
-      notesChannelRef.current = null;
-    },
-    [],
-  );
+  useEffect(() => {
+    const element = dialogRef.current;
+    if (!element) return;
+    if (dialog && !element.open) element.showModal();
+    if (!dialog && element.open) element.close();
+  }, [dialog]);
 
-  const goPrevious = () => {
-    setActiveIndex((index) => Math.max(index - 1, 0));
-  };
+  useEffect(() => {
+    const update = () => setFullscreen(Boolean(document.fullscreenElement));
+    update();
+    document.addEventListener("fullscreenchange", update);
+    return () => document.removeEventListener("fullscreenchange", update);
+  }, []);
 
-  const goNext = () => {
-    setActiveIndex((index) => Math.min(index + 1, slideTemplates.length - 1));
-  };
+  const toggleFullscreen = useCallback(async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+      setNotice("");
+    } catch {
+      setNotice("Fullscreen is unavailable in this browser window.");
+    }
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.defaultPrevented
+      ) {
+        return;
+      }
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.closest("input, textarea, select") || target.isContentEditable)
+      ) {
+        return;
+      }
+      if (dialog) {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          setDialog(null);
+        }
+        return;
+      }
+      switch (event.key.toLowerCase()) {
+        case "arrowright":
+        case "n":
+          setActiveIndex((index) => Math.min(index + 1, slides.length - 1));
+          break;
+        case "arrowleft":
+        case "p":
+          setActiveIndex((index) => Math.max(index - 1, 0));
+          break;
+        case "home":
+          setActiveIndex(0);
+          break;
+        case "end":
+          setActiveIndex(slides.length - 1);
+          break;
+        case "o":
+          setDialog("overview");
+          break;
+        case "s":
+          setDialog("notes");
+          break;
+        case "f":
+          void toggleFullscreen();
+          break;
+        default:
+          return;
+      }
+      event.preventDefault();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [dialog, toggleFullscreen]);
 
   const openPresenterNotes = () => {
-    publishPresenterNotes(activeSlide, activeIndex, notesChannelRef);
-
-    const existingWindow = notesWindowRef.current;
+    publishPresenterSlideId(activeSlide.id, channelRef.current);
+    const existing = notesWindowRef.current;
     const notesWindow =
-      existingWindow && !existingWindow.closed
-        ? existingWindow
+      existing && !existing.closed
+        ? existing
         : window.open(
-            "/speaker-notes",
-            "paper-sharing-speaker-notes",
+            `/speaker-notes#${activeSlide.id}`,
+            "ai-writing-speaker-notes",
             "popup,width=760,height=920",
           );
-
     if (!notesWindow) {
+      setNotice(
+        "The presenter window was blocked. Allow pop-ups or use Notes here.",
+      );
       return;
     }
-
     notesWindowRef.current = notesWindow;
     notesWindow.focus();
-  };
-
-  const toggleFullscreen = async () => {
-    if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen().catch(() => undefined);
-      return;
-    }
-
-    await document.exitFullscreen().catch(() => undefined);
+    setNotice("");
   };
 
   return (
-    <main className={notesOpen ? "deck-app" : "deck-app notes-collapsed"}>
-      <aside className="deck-sidebar" aria-label="Slide navigator">
-        <nav className="slide-list" aria-label="Slides">
-          {slideTemplates.map((slide, index) => {
-            const Icon = slide.icon;
-            const isActive = activeIndex === index;
-
-            return (
-              <button
-                aria-label={`${String(index + 1).padStart(2, "0")} ${slide.shortTitle ?? slide.title} ${slide.section}`}
-                className="slide-tab"
-                data-active={isActive}
-                key={slide.id}
-                onClick={() => setActiveIndex(index)}
-                type="button"
-              >
-                <span className="slide-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <Icon size={16} aria-hidden="true" />
-                <span className="slide-tab-copy">
-                  <span>{slide.shortTitle ?? slide.title}</span>
-                  <small>{slide.section}</small>
-                </span>
-              </button>
-            );
-          })}
-        </nav>
-      </aside>
-
-      <section className="deck-stage" aria-label="Active slide">
-        <header className="deck-toolbar">
-          <nav className="section-rail" aria-label="Deck sections">
-            {sectionOrder.map((section, index) => (
-              <span
-                data-active={section === activeSlide.section}
-                data-passed={index < currentSectionPosition}
-                key={section}
-              >
-                {section}
-              </span>
-            ))}
-          </nav>
-
-          <div className="toolbar-actions">
-            <button
-              aria-label={
-                notesOpen ? "Hide speaker notes" : "Show speaker notes"
-              }
-              className="icon-button"
-              onClick={() => setNotesOpen((open) => !open)}
-              title={notesOpen ? "Hide speaker notes" : "Show speaker notes"}
-              type="button"
-            >
-              {notesOpen ? (
-                <PanelRightClose size={18} aria-hidden="true" />
-              ) : (
-                <PanelRightOpen size={18} aria-hidden="true" />
-              )}
-            </button>
-            <button
-              aria-label="Open speaker notes in a new window"
-              className="nav-button notes-window-button"
-              onClick={openPresenterNotes}
-              title="Open speaker notes in a new window"
-              type="button"
-            >
-              <NotebookTabs size={16} aria-hidden="true" />
-              Notes window
-            </button>
-            <button
-              aria-label="Enter fullscreen"
-              className="icon-button"
-              onClick={toggleFullscreen}
-              title="Enter fullscreen"
-              type="button"
-            >
-              <Expand size={18} aria-hidden="true" />
-            </button>
-          </div>
-        </header>
-
-        <article
-          className={`slide-canvas tone-${activeSlide.tone} layout-${activeSlide.layout}`}
-          data-slide-id={activeSlide.id}
+    <main className="deck-app">
+      <header className="deck-toolbar">
+        <span className="deck-brand">AI × Research writing</span>
+        <button
+          className="icon-button"
+          type="button"
+          aria-label="Slide overview"
+          title="Slide overview (O)"
+          aria-haspopup="dialog"
+          onClick={() => setDialog("overview")}
         >
-          <SlideHeader slide={activeSlide} index={activeIndex} />
-          <SlideBody slide={activeSlide} />
-        </article>
+          <LayoutGrid size={18} aria-hidden="true" />
+        </button>
+        <span className="toolbar-section">{activeSlide.section}</span>
+        <div className="toolbar-actions">
+          {activeSlide.prompt ? (
+            <button
+              className="toolbar-button"
+              type="button"
+              onClick={() => setDialog("prompt")}
+              aria-haspopup="dialog"
+            >
+              <Copy size={15} aria-hidden="true" />
+              <span>Prompt</span>
+            </button>
+          ) : null}
+          <button
+            className="toolbar-button"
+            type="button"
+            onClick={() => setDialog("notes")}
+            title="Speaker notes (S)"
+            aria-haspopup="dialog"
+          >
+            <NotebookTabs size={17} aria-hidden="true" />
+            <span>Notes</span>
+          </button>
+          <button
+            className="icon-button"
+            type="button"
+            onClick={openPresenterNotes}
+            aria-label="Open presenter window"
+            title="Open presenter window"
+          >
+            <Presentation size={18} aria-hidden="true" />
+          </button>
+          <button
+            className="icon-button"
+            type="button"
+            onClick={toggleFullscreen}
+            aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            title={fullscreen ? "Exit fullscreen (F)" : "Enter fullscreen (F)"}
+          >
+            {fullscreen ? (
+              <Minimize size={18} aria-hidden="true" />
+            ) : (
+              <Expand size={18} aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      </header>
 
-        <footer className="deck-controls">
-          <div className="progress-shell" aria-hidden="true">
-            <div style={{ width: `${progress}%` }} />
-          </div>
-          <div className="control-cluster">
-            <button
-              className="nav-button"
-              disabled={activeIndex === 0}
-              onClick={goPrevious}
-              type="button"
-            >
-              <ArrowLeft size={16} aria-hidden="true" />
-              Previous
-            </button>
-            <button
-              className="nav-button primary"
-              disabled={activeIndex === slideTemplates.length - 1}
-              onClick={goNext}
-              type="button"
-            >
-              Next
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          </div>
-        </footer>
+      <section
+        className="deck-stage"
+        aria-label={`Slide ${activeIndex + 1}: ${activeSlide.title}`}
+      >
+        <SlideContent
+          slide={activeSlide}
+          index={activeIndex}
+          total={slides.length}
+        />
       </section>
 
-      {notesOpen ? <SpeakerNotes slide={activeSlide} /> : null}
+      <footer className="deck-controls">
+        <div className="control-cluster">
+          <button
+            className="nav-button"
+            type="button"
+            disabled={activeIndex === 0}
+            onClick={() => setActiveIndex((index) => Math.max(index - 1, 0))}
+            aria-label="Previous slide"
+            title="Previous slide (← / P)"
+          >
+            <ArrowLeft size={17} aria-hidden="true" />
+            <span>Previous</span>
+          </button>
+          <button
+            className="nav-button"
+            type="button"
+            disabled={activeIndex === slides.length - 1}
+            onClick={() =>
+              setActiveIndex((index) => Math.min(index + 1, slides.length - 1))
+            }
+            aria-label="Next slide"
+            title="Next slide (→ / N)"
+          >
+            <span>Next</span>
+            <ArrowRight size={17} aria-hidden="true" />
+          </button>
+        </div>
+        <nav className="slide-dots" aria-label="Slide progress">
+          {slides.map((slide, index) => (
+            <button
+              key={slide.id}
+              className="slide-dot"
+              type="button"
+              data-active={index === activeIndex}
+              aria-current={index === activeIndex ? "step" : undefined}
+              aria-label={`Slide ${index + 1}: ${slide.shortTitle}`}
+              title={`${index + 1}. ${slide.title}`}
+              onClick={() => setActiveIndex(index)}
+            />
+          ))}
+        </nav>
+        <span className="slide-counter" aria-live="polite" aria-atomic="true">
+          {String(activeIndex + 1).padStart(2, "0")} / {slides.length}
+        </span>
+      </footer>
+      <div className="deck-notice" role="status">
+        {notice}
+      </div>
+
+      <dialog
+        ref={dialogRef}
+        className={`deck-dialog ${dialog === "overview" ? "overview-dialog" : ""}`}
+        aria-labelledby="deck-dialog-title"
+        onCancel={(event) => {
+          event.preventDefault();
+          setDialog(null);
+        }}
+      >
+        <div className="dialog-heading">
+          <h2 id="deck-dialog-title">
+            {dialog === "overview"
+              ? "Slide overview"
+              : dialog === "prompt"
+                ? "Try this prompt"
+                : "Speaker notes"}
+          </h2>
+          <button
+            className="dialog-close icon-button"
+            type="button"
+            aria-label="Close dialog"
+            onClick={() => setDialog(null)}
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+        </div>
+        <div className="dialog-body">
+          {dialog === "overview" ? (
+            <div className="overview-sections">
+              {sections.map((section) => (
+                <section className="overview-section" key={section}>
+                  <h3>{section}</h3>
+                  <ol className="overview-list">
+                    {slides.map((slide, index) =>
+                      slide.section === section ? (
+                        <li key={slide.id}>
+                          <button
+                            className="overview-slide"
+                            type="button"
+                            data-active={index === activeIndex}
+                            aria-current={
+                              index === activeIndex ? "step" : undefined
+                            }
+                            onClick={() => {
+                              setActiveIndex(index);
+                              setDialog(null);
+                            }}
+                          >
+                            <span>{String(index + 1).padStart(2, "0")}</span>
+                            <strong>{slide.title}</strong>
+                          </button>
+                        </li>
+                      ) : null,
+                    )}
+                  </ol>
+                </section>
+              ))}
+            </div>
+          ) : dialog === "notes" ? (
+            <SlideNotes slide={activeSlide} />
+          ) : dialog === "prompt" && activeSlide.prompt ? (
+            <PromptCopy key={activeSlide.id} prompt={activeSlide.prompt} />
+          ) : null}
+        </div>
+      </dialog>
     </main>
   );
 }
 
-function publishPresenterNotes(
-  slide: SlideTemplate,
-  index: number,
-  notesChannelRef: RefObject<BroadcastChannel | null>,
-) {
-  const presenterNotes = buildPresenterNotesState(slide, index);
-
-  window.localStorage.setItem(
-    PRESENTER_NOTES_STORAGE_KEY,
-    JSON.stringify(presenterNotes),
-  );
-
-  notesChannelRef.current ??= new BroadcastChannel(PRESENTER_NOTES_CHANNEL);
-  notesChannelRef.current.postMessage(presenterNotes);
-}
-
-function buildPresenterNotesState(
-  slide: SlideTemplate,
-  index: number,
-): PresenterNotesState {
-  return {
-    index,
-    total: slideTemplates.length,
-    section: slide.section,
-    title: slide.title,
-    subtitle: slide.subtitle ?? "",
-    presenterMove: slide.presenterMove,
-    slots: slide.slots,
-    notes: slide.notes,
-    principles: templatePrinciples,
-  };
-}
-
-function SlideHeader({
-  slide,
-  index,
-}: {
-  slide: SlideTemplate;
-  index: number;
-}) {
+function PromptCopy({ prompt }: { prompt: string }) {
+  const [status, setStatus] = useState<CopyStatus>("idle");
   return (
-    <header className="slide-header">
-      <div className="slide-section">
-        <span>{String(index + 1).padStart(2, "0")}</span>
-      </div>
-      <div className="slide-title-row">
-        <div>
-          <h2>{slide.title}</h2>
-          {slide.subtitle ? <p>{slide.subtitle}</p> : null}
-          {slide.paperMeta ? (
-            <div className="slide-paper-badges">
-              <span className="paper-meta-badge">
-                <span>Venue</span>
-                <strong>{slide.paperMeta.venue}</strong>
-              </span>
-              <a
-                className="paper-meta-badge paper-meta-link"
-                href={slide.paperMeta.href}
-                rel="noreferrer"
-                target="_blank"
-              >
-                <span>Paper Link</span>
-                <strong>ACM Digital Library</strong>
-              </a>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function SlideBody({ slide }: { slide: SlideTemplate }) {
-  if (slide.layout === "cover") {
-    return <CoverSlide slide={slide} />;
-  }
-
-  if (slide.layout === "big-idea") {
-    return <BigIdeaSlide slide={slide} />;
-  }
-
-  if (slide.layout === "cards") {
-    return <CardsSlide slide={slide} />;
-  }
-
-  if (slide.layout === "funnel") {
-    return <FunnelSlide slide={slide} />;
-  }
-
-  if (slide.layout === "comparison") {
-    return <ComparisonSlide slide={slide} />;
-  }
-
-  if (slide.layout === "quadrant") {
-    return <QuadrantSlide slide={slide} />;
-  }
-
-  if (slide.layout === "figure-focus") {
-    return <FigureFocusSlide slide={slide} />;
-  }
-
-  if (slide.layout === "pipeline") {
-    return <PipelineSlide slide={slide} />;
-  }
-
-  if (slide.layout === "evidence") {
-    return <EvidenceSlide slide={slide} />;
-  }
-
-  if (slide.layout === "related") {
-    return <RelatedSlide slide={slide} />;
-  }
-
-  return <TakeawaysSlide slide={slide} />;
-}
-
-function CoverSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-cover" data-slide-id={slide.id}>
-      <section className="orality-cover-headline">
-        <h3>{slide.headline}</h3>
-        {slide.presenterLine ? <p>{slide.presenterLine}</p> : null}
-      </section>
-      <div className="orality-meta-grid">
-        {slide.meta?.map((point) => (
-          <PointCard key={point.title} point={point} compact />
-        ))}
-      </div>
-      <FigurePanel figure={slide.figures?.[0]} priority />
-    </div>
-  );
-}
-
-function BigIdeaSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-big-idea" data-slide-id={slide.id}>
-      <section className="orality-quote-panel">
-        <h3>{slide.headline}</h3>
-        <p>{slide.body}</p>
-      </section>
-      <PointGrid points={slide.points} />
-    </div>
-  );
-}
-
-function CardsSlide({ slide }: { slide: SlideTemplate }) {
-  const hasBullets = Boolean(slide.bullets?.length);
-
-  return (
-    <div
-      className={`orality-layout orality-cards-slide${hasBullets ? " orality-bullet-slide" : ""}`}
-      data-slide-id={slide.id}
-    >
-      {hasBullets ? (
-        <>
-          <ul className="orality-motivation-bullets">
-            {slide.bullets?.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
-            ))}
-          </ul>
-          <FigurePanel figure={slide.figures?.[0]} fitToFrame priority />
-        </>
-      ) : (
-        <>
-          <section className="orality-thesis">
-            <h3>{slide.headline}</h3>
-          </section>
-          <PointGrid points={slide.points} />
-        </>
-      )}
-    </div>
-  );
-}
-
-function FunnelSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div
-      className="orality-layout orality-funnel-slide"
-      data-slide-id={slide.id}
-    >
-      <div className="orality-funnel">
-        {slide.points?.map((point, index) => (
-          <div
-            className="orality-funnel-step"
-            key={point.title}
-            style={{ "--step": index } as CSSProperties}
-          >
-            <span>{point.label}</span>
-            <strong>{point.title}</strong>
-            <p>{point.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ComparisonSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-comparison" data-slide-id={slide.id}>
-      <section className="orality-copy-panel">
-        <h3>{slide.headline}</h3>
-        <p>{slide.body}</p>
-        <PointGrid points={slide.points} compact />
-      </section>
-      <FigurePanel figure={slide.figures?.[0]} priority />
-    </div>
-  );
-}
-
-function QuadrantSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-quadrant-slide">
-      <section className="orality-problem-panel">
-        <span>New problem</span>
-        <h3>{slide.headline}</h3>
-        <p>{slide.body}</p>
-      </section>
-      <section className="orality-tech-panel">
-        <span>Existing techniques used</span>
-        <ul className="orality-tech-list">
-          {slide.bullets?.map((bullet) => (
-            <li key={bullet}>{bullet}</li>
-          ))}
-        </ul>
-      </section>
-    </div>
-  );
-}
-
-function FigureFocusSlide({ slide }: { slide: SlideTemplate }) {
-  const figureOnRight = [
-    "system-overview",
-    "conceptual-framework",
-    "voice-restructuring",
-    "embedded-scaffolds",
-    "workflow-strategies",
-    "related-orca",
-    "related-ai-personality",
-    "related-visual-metaphors",
-  ].includes(slide.id);
-  const copyPanel = (
-    <section className="orality-copy-panel">
-      {slide.headline ? <h3>{slide.headline}</h3> : null}
-      {slide.body ? <p>{slide.body}</p> : null}
-      {slide.points?.length ? (
-        <PointGrid points={slide.points} compact />
-      ) : null}
+    <section className="prompt-copy">
+      <pre className="prompt-text">{prompt}</pre>
+      <button
+        className="copy-prompt-button"
+        type="button"
+        onClick={async () =>
+          setStatus((await copyPromptText(prompt)) ? "copied" : "failed")
+        }
+      >
+        {status === "copied" ? (
+          <Check size={16} aria-hidden="true" />
+        ) : (
+          <Copy size={16} aria-hidden="true" />
+        )}
+        {status === "copied" ? "Copied" : "Copy prompt"}
+      </button>
+      <p className="copy-status" role="status">
+        {status === "copied"
+          ? "Prompt copied to clipboard."
+          : status === "failed"
+            ? "Could not access the clipboard. Select and copy the prompt above."
+            : ""}
+      </p>
     </section>
   );
-  const figurePanel = <FigurePanel figure={slide.figures?.[0]} priority />;
-
-  return (
-    <div
-      className={`orality-layout orality-figure-focus${figureOnRight ? " figure-right" : ""}`}
-      data-slide-id={slide.id}
-    >
-      {figureOnRight ? (
-        <>
-          {copyPanel}
-          {figurePanel}
-        </>
-      ) : (
-        <>
-          {figurePanel}
-          {copyPanel}
-        </>
-      )}
-    </div>
-  );
 }
 
-function PipelineSlide({ slide }: { slide: SlideTemplate }) {
-  const copyStyle =
-    slide.id === "implementation"
-      ? ({ alignContent: "center" } as CSSProperties)
-      : undefined;
-
+function SlideNotes({ slide }: { slide: Slide }) {
   return (
-    <div
-      className="orality-layout orality-pipeline-slide"
-      data-slide-id={slide.id}
-    >
-      <section className="orality-copy-panel" style={copyStyle}>
-        {slide.headline ? <h3>{slide.headline}</h3> : null}
-        <PointGrid points={slide.points} compact />
-      </section>
-      <FigurePanel figure={slide.figures?.[0]} priority />
-    </div>
-  );
-}
-
-function EvidenceSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-evidence-slide">
-      <section className="orality-evidence-summary">
-        <h3>{slide.headline}</h3>
-        <PointGrid points={slide.points} compact />
-      </section>
-      <FigurePanel figure={slide.figures?.[0]} fitToFrame priority />
-    </div>
-  );
-}
-
-function TakeawaysSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-takeaways" data-slide-id={slide.id}>
-      <section className="orality-thesis">
-        <h3>{slide.headline}</h3>
-      </section>
-      <PointGrid points={slide.points} />
-    </div>
-  );
-}
-
-function RelatedSlide({ slide }: { slide: SlideTemplate }) {
-  return (
-    <div className="orality-layout orality-related-slide">
-      <section className="orality-thesis">
-        <h3>{slide.headline}</h3>
-      </section>
-      <div className="related-paper-grid">
-        {slide.points?.map((point, index) => {
-          const figure = slide.figures?.[index];
-          const figureStyle = figure
-            ? ({
-                "--figure-aspect": `${figure.width} / ${figure.height}`,
-              } as CSSProperties)
-            : undefined;
-
-          return (
-            <article
-              className="related-paper-card"
-              key={point.title}
-              style={figureStyle}
-            >
-              {figure ? (
-                <div className="related-figure-shell">
-                  <Image
-                    alt={figure.alt}
-                    height={figure.height}
-                    sizes="(max-width: 820px) 90vw, 24vw"
-                    src={figure.src}
-                    width={figure.width}
-                  />
-                </div>
-              ) : null}
-              <div className="related-paper-copy">
-                <span>{point.label}</span>
-                <strong>{point.title}</strong>
-                <p>{point.body}</p>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function PointGrid({
-  points = [],
-  compact = false,
-}: {
-  points?: SlidePoint[];
-  compact?: boolean;
-}) {
-  return (
-    <div className="orality-point-grid" data-compact={compact}>
-      {points.map((point) => (
-        <PointCard compact={compact} key={point.title} point={point} />
-      ))}
-    </div>
-  );
-}
-
-function PointCard({
-  point,
-  compact = false,
-}: {
-  point: SlidePoint;
-  compact?: boolean;
-}) {
-  return (
-    <article
-      className="orality-point-card"
-      data-compact={compact}
-      data-emphasis={point.emphasis}
-    >
-      <div>
-        {point.label ? <span>{point.label}</span> : null}
-        <strong>{point.title}</strong>
-      </div>
-      {point.href ? (
-        <a href={point.href} rel="noreferrer" target="_blank">
-          {point.body}
-        </a>
-      ) : point.bullets?.length ? (
-        <>
-          {point.showBodyWithBullets ? <p>{point.body}</p> : null}
-          <ul>
-            {point.bullets.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <p>{point.body}</p>
-      )}
-    </article>
-  );
-}
-
-function FigurePanel({
-  figure,
-  fitToFrame = false,
-  priority = false,
-}: {
-  figure?: SlideFigure;
-  fitToFrame?: boolean;
-  priority?: boolean;
-}) {
-  if (!figure) {
-    return null;
-  }
-
-  const figureStyle = {
-    "--figure-aspect": `${figure.width} / ${figure.height}`,
-    "--figure-height": figure.height,
-    "--figure-width": figure.width,
-  } as CSSProperties;
-  const imageStyle = fitToFrame
-    ? ({
-        height: "100%",
-        objectFit: "contain",
-        width: "100%",
-      } as CSSProperties)
-    : undefined;
-
-  return (
-    <figure className="orality-figure-panel" style={figureStyle}>
-      <div className="paper-figure-shell">
-        <Image
-          alt={figure.alt}
-          height={figure.height}
-          priority={priority}
-          sizes={
-            fitToFrame
-              ? "(max-width: 820px) 90vw, 78vw"
-              : "(max-width: 820px) 90vw, 45vw"
-          }
-          src={figure.src}
-          style={imageStyle}
-          width={figure.width}
-        />
-      </div>
-      <figcaption>
-        <span>{figure.caption}</span>
-      </figcaption>
-      {figure.read ? (
-        <aside className="figure-read-card">
-          <span>My read</span>
-          <strong>{figure.read}</strong>
-        </aside>
-      ) : null}
-      {figure.idea ? (
-        <aside className="figure-read-card">
-          <span>My idea</span>
-          <strong>{figure.idea}</strong>
-        </aside>
-      ) : null}
-    </figure>
-  );
-}
-
-function SpeakerNotes({ slide }: { slide: SlideTemplate }) {
-  return (
-    <aside className="speaker-notes" aria-label="Speaker notes">
-      <div className="notes-header">
-        <NotebookTabs size={20} aria-hidden="true" />
-        <div>
-          <strong>Speaker notes</strong>
-          <span>{slide.section}</span>
-        </div>
-      </div>
-      <section>
-        <span className="field-label">Key points</span>
-        <ul>
-          {slide.notes.map((note) => (
-            <li key={note}>{note}</li>
+    <>
+      <p className="notes-section">{slide.section}</p>
+      <h3 className="notes-title">{slide.title}</h3>
+      <p className="notes-takeaway">{slide.takeaway}</p>
+      <ul className="notes-list">
+        {slide.notes.map((note) => (
+          <li key={note}>{note}</li>
+        ))}
+      </ul>
+      <p className="notes-evidence">{slide.evidence}</p>
+      {slide.sources.length ? (
+        <ul className="notes-sources">
+          {slide.sources.map((source) => (
+            <li key={source.href}>
+              <a href={source.href} target="_blank" rel="noreferrer">
+                {source.label}
+              </a>
+            </li>
           ))}
         </ul>
-      </section>
-    </aside>
+      ) : null}
+      {slide.prompt ? (
+        <PromptCopy key={slide.id} prompt={slide.prompt} />
+      ) : null}
+    </>
   );
 }

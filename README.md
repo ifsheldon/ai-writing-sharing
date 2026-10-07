@@ -1,12 +1,12 @@
-# Orality Paper Sharing Slides
+# AI × Research Writing
 
-This is a web-based paper-sharing deck for **Orality: A Semantic Canvas for Externalizing and Clarifying Thoughts with Speech**. It keeps the paper-sharing template controls, speaker notes, keyboard navigation, and presentation workflow, but the slide content now follows a concrete Orality-first talk arc with three related papers summarized on separate ending slides.
+A 17-slide web presentation about writing and revising research papers with AI, designed for a 25-minute sharing session with visualization and HCI labmates.
+The deck follows the approved [talk outline](talk-outline.md): five general suggestions, all ten writing pitfalls in guide order, and two slides on draft review and revision editing.
 
-## Getting Started
+## Getting started
 
 This project starts from [ifsheldon/paper-sharing](https://github.com/ifsheldon/paper-sharing) at commit `3b4e657`.
 Use Bun 1.4.2 and Node.js 20.9 or later.
-Install the locked dependencies, then run the development server:
 
 ```bash
 git clone --recurse-submodules git@github.com:ifsheldon/ai-writing-sharing.git
@@ -15,47 +15,57 @@ bun install --frozen-lockfile
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000).
+The presentation targets desktop displays at 16:9 and 16:10, including 1280 × 720 and 1440 × 900.
+It uses the full available slide area at both ratios and does not include a mobile layout.
 
-## Using The Deck
+## Presenting
 
-- Use the left rail to jump between slides.
-- Use `ArrowLeft`, `ArrowRight`, `N`, `P`, `Home`, and `End` for keyboard navigation.
-- Speaker notes are hidden by default. Use the notes button to show or hide concise key points for the current slide.
-- Use the Notes window button to open a separate `/speaker-notes` window and keep it synced with the active slide. Move that window to a second display for presenter notes.
-- The notes window resynchronizes with the current slide when either window is reloaded, including during local development.
-- Use the fullscreen button only for the main deck.
+- Use the bottom progress markers or the slide overview to jump to a slide.
+- Use `ArrowLeft` / `P` and `ArrowRight` / `N` to navigate, or `Home` and `End` to reach the first and last slides.
+- Press `O` for the overview, `S` for speaker notes, and `F` for fullscreen.
+- Press `Escape` to close a dialog.
+- Open **Prompt** on slides 1–5, 16, and 17 to read and copy the complete instruction.
+- Use **Open presenter window** for a separate notes window on a second display.
 
-## Editing The Template
+Notes and prompts open over the slide without changing its layout.
+The presenter window follows the active slide and resynchronizes after either window reloads.
+Slide URLs include a stable fragment such as `#plain-writing`, so reloading or sharing that URL preserves the selected slide.
+The notes connection is shared by presentation windows on the same origin, so use one main deck window per origin when presenting.
 
-The deck content lives in `src/app/deck-data.ts`. Each slide includes:
+Illustrative examples are marked on the slides.
+Speaker notes preserve the qualifications, source references, unused style examples, and full revision checklist from the outline.
+The final slide links to the three writing guides at the submodule revision used to prepare the talk.
 
-- the title, section, layout, and presenter move,
-- the slide copy, cards, bullets, and speaker key points,
-- optional figure metadata and paper metadata badges,
+## Editing
 
-Figure assets used by the deck live in `public/figures`.
+- [`src/app/deck-data.ts`](src/app/deck-data.ts) contains the slide text, complete prompts, speaker notes, and sources.
+- [`src/app/slide-types.ts`](src/app/slide-types.ts) defines the typed content layouts.
+- [`src/app/slide-content.tsx`](src/app/slide-content.tsx) renders examples, comparisons, sequences, and review steps.
+- [`src/app/slides.css`](src/app/slides.css) controls slide typography and layouts using the available presentation area.
+- [`src/app/page.tsx`](src/app/page.tsx) provides the presentation controls and dialogs.
+- [`src/app/globals.css`](src/app/globals.css) styles the shell, dialogs, and presenter window.
+- [`src/app/presenter-notes-state.ts`](src/app/presenter-notes-state.ts) synchronizes validated slide IDs through browser storage and BroadcastChannel.
 
-The interactive UI is in `src/app/page.tsx`, and the visual system is in `src/app/globals.css`.
+Keep the slide content aligned with [talk-outline.md](talk-outline.md).
+After changing a layout or adding text, inspect all affected slides at both aspect ratios for clipping, overlap, and reading order.
+Preserve the distinction between illustrative examples and historical manuscript revisions.
 
-## Writing Guidelines
+## Writing guidelines
 
-The [vis-writing-guidelines](vis-writing-guidelines/) submodule contains shared guidance for research writing.
-The [AI writing session outline](talk-outline.md) proposes a 25-minute session for VIS and HCI labmates, covering general suggestions, all ten writing pitfalls with examples, and guidance for revision editing.
+The [vis-writing-guidelines](vis-writing-guidelines/) submodule contains the source guidance.
 For an existing checkout, initialize it with:
 
 ```bash
 git submodule update --init --recursive
 ```
 
+Use [VIS Writing Style](vis-writing-guidelines/vis-writing-style.md) while drafting, [VIS Writing Pitfalls](vis-writing-guidelines/vis-writing-pitfalls.md) when reviewing explanations, and [VIS Editing Pitfalls](vis-writing-guidelines/vis-editing-pitfalls.md) when revising an existing argument.
+
 ## Checks
 
-Direct dependencies are pinned to stable releases in `package.json`, with resolved versions in `bun.lock`.
+Dependencies are pinned in `package.json` and resolved in `bun.lock`.
 The stack uses Next.js 16.4, React 19.3, TypeScript 7.0, Tailwind CSS 4.3, Biome 2.5, and the React Compiler.
-The `typecheck` command generates Next.js route types and runs the stable TypeScript 7 compiler.
-Next.js also checks types during production builds.
-
-Use Bun for local commands:
 
 ```bash
 bun run lint
@@ -63,4 +73,5 @@ bun run typecheck
 bun run build
 ```
 
+The type check generates Next.js route types before running TypeScript.
 Use `bun run format` to format project files and `bun run start` to serve a completed production build.

@@ -1,1103 +1,685 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  AudioLines,
-  BookOpenText,
-  Brain,
-  ChartNoAxesCombined,
-  Crosshair,
-  Grid2X2,
-  MessageSquareQuote,
-  Milestone,
-  Network,
-  Presentation,
-  Scale,
-  SearchCheck,
-  Workflow,
-} from "lucide-react";
+import type { Slide } from "./slide-types";
 
-export type Tone = "ink" | "green" | "blue" | "amber" | "coral" | "violet";
-
-export type SlideLayout =
-  | "cover"
-  | "big-idea"
-  | "cards"
-  | "funnel"
-  | "comparison"
-  | "quadrant"
-  | "figure-focus"
-  | "pipeline"
-  | "evidence"
-  | "takeaways"
-  | "related";
-
-export type SlidePoint = {
-  label?: string;
-  title: string;
-  body: string;
-  bullets?: string[];
-  emphasis?: boolean;
-  href?: string;
-  selected?: boolean;
-  showBodyWithBullets?: boolean;
-};
-
-export type SlideFigure = {
-  src: string;
-  alt: string;
-  caption: string;
-  read?: string;
-  idea?: string;
-  width: number;
-  height: number;
-};
-
-export type PaperMeta = {
-  venue: string;
-  href: string;
-};
-
-export type SlideTemplate = {
-  id: string;
-  section: string;
-  title: string;
-  shortTitle?: string;
-  subtitle?: string;
-  headline?: string;
-  presenterLine?: string;
-  body?: string;
-  bullets?: string[];
-  layout: SlideLayout;
-  presenterMove: string;
-  icon: LucideIcon;
-  tone: Tone;
-  slots: string[];
-  notes: string[];
-  points?: SlidePoint[];
-  figures?: SlideFigure[];
-  meta?: SlidePoint[];
-  paperMeta?: PaperMeta;
-};
-
-const oralityFigureBase = "/figures/orality";
-const relatedFigureBase = "/figures/related";
-
-export const slideTemplates: SlideTemplate[] = [
+export const slides: Slide[] = [
   {
-    id: "paper-card",
-    section: "Setup",
-    title:
-      "Orality: A Semantic Canvas for Externalizing and Clarifying Thoughts with Speech",
-    shortTitle: "Orality",
-    subtitle: "",
-    headline:
-      "Speech becomes editable spatial material, not a transcript to clean up later.",
-    presenterLine: "Presented by Feng Liang, June 8th",
-    body: "Wengxi Li, Jingze Tian, and Can Liu (劉燦). CHI 2026. The paper asks how AI can scaffold unclear thinking while preserving user agency.",
-    layout: "cover",
-    presenterMove:
-      "Name the paper, then frame it as an interface question about thinking with speech instead of a transcription paper.",
-    icon: Presentation,
-    tone: "ink",
-    slots: [
-      "Exact title and venue",
-      "Main interface as opening visual",
-      "One-sentence reason for this paper",
-    ],
-    notes: [
-      "Orality is a CHI 2026 paper by Wengxi Li, Jingze Tian, and Can Liu.",
-      "The core idea is that speech should become editable spatial material, not a transcript to clean up later.",
-      "This matters because voice interfaces need structure while preserving user agency.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure01_main_interface.png`,
-        alt: "Orality main interface",
-        caption:
-          "Figure 1: semantic canvas, speech input, AI stimulation, history, and export.",
-        width: 2940,
-        height: 1818,
-      },
-    ],
-    meta: [
-      {
-        label: "Venue",
-        title: "CHI 2026",
-        body: "ACM Digital Library Link",
-        href: "https://dl.acm.org/doi/full/10.1145/3772318.3791713",
-      },
-      {
-        label: "Authors",
-        title: "City University of Hong Kong",
-        body: "Wengxi Li, Jingze Tian, Can Liu (劉燦).",
-      },
-      {
-        label: "Why care",
-        title: "LLM voice needs structure",
-        body: "Voice is increasingly important, but current voice/chat artifacts stay too linear for sensemaking.",
-        bullets: [
-          "Voice is important in meetings.",
-          "Voice is becoming important in vibe coding.",
-          "Current voice/chat artifacts stay too linear for sensemaking.",
-        ],
-      },
-      {
-        label: "Novelty/Contribution",
-        title: "Speech becomes a semantic canvas",
-        body: "The system turns spoken thought into editable spatial objects with embedded AI scaffolds.",
-      },
-    ],
-  },
-  {
-    id: "transcript-trap",
-    section: "Hook",
-    title: "The Transcript Trap",
-    subtitle:
-      "Speech is low friction, but transcripts are poor thinking media.",
-    headline:
-      "You talk for ten minutes to clarify an idea, and now the artifact is a transcript you do not want to read.",
-    body: "Orality starts from this mismatch: spoken thinking is fast, personal, and non-linear; speech-to-text output is linear, verbose, and hard to reorganize.",
-    layout: "big-idea",
-    presenterMove:
-      "Make the audience feel the failure before naming the system solution.",
-    icon: AudioLines,
-    tone: "coral",
-    slots: [
-      "Relatable failure case",
-      "Speech is useful for externalization",
-      "Linear output breaks sensemaking",
-    ],
-    notes: [
-      "Speech is a low-friction way to externalize messy thoughts.",
-      "A transcript preserves words but loses relationships, priorities, conflicts, and revisions.",
-      "Orality starts from this mismatch between easy speech input and hard-to-use transcript output.",
-    ],
-    points: [
-      {
-        label: "Input",
-        title: "Speech is natural",
-        body: "People can externalize messy thoughts quickly without stopping to edit.",
-      },
-      {
-        label: "Artifact",
-        title: "Transcript is linear",
-        body: "The output preserves words, but not relationships, priorities, or evolving structure.",
-      },
-      {
-        label: "Consequence",
-        title: "The user repairs structure",
-        body: "The cognitive work moves from thinking to cleaning, scanning, and reorganizing text.",
-      },
-    ],
-  },
-  {
-    id: "why-this-paper",
-    section: "Motivation",
-    title: "Why This Paper",
-    subtitle:
-      "The paper is useful because speech is becoming a serious interaction modality.",
-    layout: "cards",
-    presenterMove:
-      "Frame this as a group-relevance slide before moving into the paper's problem statement.",
-    icon: SearchCheck,
-    tone: "green",
-    slots: [
-      "Voice in meetings and lectures",
-      "Voice in vibe coding",
-      "Voice for vibe design and visualization",
-    ],
-    notes: [
-      "Voice matters for meetings, lecture notes, planning, and other workflows where people think aloud.",
-      "Voice is becoming important in vibe coding, where developers increasingly speak instructions instead of typing every step.",
-      "For our group, the interesting extension is voice for vibe design and vibe visualization.",
-    ],
-    bullets: [
-      "Voice matters in many scenarios, such as meetings. With slight extensions, this paper could support discussing action plans in a meeting, taking notes in a lecture, and similar workflows.",
-      "Voice is becoming a major modality in vibe coding. Many developers no longer type every instruction manually.",
-      "Voice may also be useful in vibe design and vibe visualization, which is the focus of our group.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/claude-design.png`,
-        alt: "Claude design interface with an interactive globe project",
-        caption:
-          "Example: Claude Design shows how voice and chat-driven design work increasingly produces visual, interactive artifacts.",
-        width: 1219,
-        height: 717,
-      },
-    ],
-  },
-  {
-    id: "background-funnel",
-    section: "Problem",
-    title: "Background",
-    subtitle:
-      "The paper connects external cognition, speech, and LLM voice interfaces.",
-    layout: "funnel",
-    presenterMove:
-      "Compress background quickly, then slow down at the exact problem statement.",
-    icon: Crosshair,
-    tone: "blue",
-    slots: [
-      "External representations support thinking",
-      "Speech captures thought cheaply",
-      "Chat and transcripts are hard to manipulate",
-      "Target: personal thought clarification",
-    ],
-    notes: [
-      "External representations help thinking because they make partial ideas visible and revisable.",
-      "Speech is fast externalization, but it usually disappears or becomes a linear transcript.",
-      "The paper targets individual, ambiguous, evolving thought clarification, not meeting capture or automatic generation.",
-    ],
-    points: [
-      {
-        label: "General",
-        title: "Thinking uses external representations",
-        body: "Notes, sketches, whiteboards, and diagrams make partial ideas visible. They let people compare, regroup, and return to thoughts that are not finished yet.",
-      },
-      {
-        label: "Motivation",
-        title: "Speech is fast externalization",
-        body: "Speech is useful when thoughts are still forming because it does not force immediate editing. The problem is that spoken thinking usually disappears or becomes plain transcript text.",
-      },
-      {
-        label: "Problem",
-        title: "LLM voice inherits the chat log",
-        body: "Current voice/chat interfaces keep a chronological conversation history. Topics, relationships, conflicts, and revisions remain implicit, so users must reconstruct structure afterward.",
-      },
-      {
-        label: "Scope",
-        title: "Clarify personal thoughts",
-        body: "Orality targets individual, ambiguous, evolving thought clarification. AI helps turn speech into editable objects while the user keeps control over meaning and organization.",
-      },
-    ],
-  },
-  {
-    id: "novelty-claim",
-    section: "Novelty",
-    title: "New Problem, Existing Techniques",
-    subtitle: "",
-    headline:
-      "Spoken thought is fast and non-linear, but today's voice interfaces mostly produce linear artifacts that are tedious to read and hard to manipulate.",
-    body: "The new problem is turning voice into an editable thinking artifact while keeping relationships, conflicts, revisions, and user agency visible.",
-    layout: "quadrant",
-    presenterMove:
-      "Classify novelty decisively, then explain why existing ingredients can still produce a valuable interaction contribution.",
-    icon: Grid2X2,
-    tone: "violet",
-    slots: [
-      "Speech-to-text",
-      "LLM semantic extraction",
-      "Node-link canvas",
-      "Embedding and PCA layout",
-    ],
-    notes: [
-      "The new problem is turning voice into an editable thinking artifact.",
-      "The technical ingredients are familiar: speech-to-text, LLM chunking, embeddings, PCA, and node-link canvases.",
-      "The contribution is how these pieces are coupled around visible structure and user agency.",
-    ],
-    bullets: [
-      "Speech-to-text transcription",
-      "LLM semantic chunking and topic extraction",
-      "Node-link diagrams and concept-map style canvases",
-      "Sentence embeddings",
-      "PCA projection for semantic placement",
-      "Similarity-based layout refinement",
-      "Prompted LLM questions, conflict detection, and memo export",
-    ],
-  },
-  {
-    id: "author-contributions",
-    section: "Contributions",
-    title: "Contributions",
-    headline:
-      "The authors claim a design process, a system artifact, and an empirical study.",
-    layout: "cards",
-    presenterMove:
-      "List the claims first, then state that the strongest contribution is the interaction pattern.",
-    icon: Milestone,
-    tone: "amber",
-    slots: [
-      "Adapted framework and formative study",
-      "Orality system artifact",
-      "Within-subject evaluation",
-      "Your contribution read",
-    ],
-    notes: [
-      "The authors claim three contributions: design process, system artifact, and empirical study.",
-      "The strongest contribution is the interaction pattern: speech input plus a malleable semantic canvas.",
-      "The evidence supports the design needs and qualitative usefulness more strongly than broad performance superiority.",
-    ],
-    points: [
-      {
-        label: "Author claim 01",
-        title: "Design process and framework",
-        body: "Iterative design of Orality, grounded in an adapted framework for self thought clarification and a formative study on iterative verbalization.",
-      },
-      {
-        label: "Author claim 02",
-        title: "System artifact",
-        body: "An AI-assisted speech-to-text canvas that extracts spoken gist into a manipulable node-link diagram and asks in-place thought-provoking questions.",
-      },
-      {
-        label: "Author claim 03",
-        title: "Empirical study",
-        body: "A within-subject lab study with 12 participants comparing a multimodal canvas AI interface with a chat-based AI baseline.",
-      },
-      {
-        label: "My read",
-        title: "Interaction pattern",
-        body: "The most convincing contribution is speech input plus a malleable semantic canvas:",
-        bullets: [
-          "It gives users something to inspect and manipulate between verbalization rounds.",
-          "It is well supported by the formative study needs and the qualitative evaluation.",
-        ],
-        emphasis: true,
-        showBodyWithBullets: true,
-      },
-    ],
-  },
-  {
-    id: "formative-design-goals",
-    section: "Contributions",
-    title: "Formative Study to Design Goals",
-    subtitle:
-      "8 participants exposed what speech-based thought tools must support.",
-    headline:
-      "Users need speech to become an editable, evolving semantic structure, with AI scaffolding the thinking process without taking control.",
-    layout: "cards",
-    presenterMove:
-      "Use this slide to show that the system features are grounded in observed breakdowns, not just interface invention.",
-    icon: SearchCheck,
-    tone: "green",
-    slots: [
-      "Non-linear thought representation",
-      "Flexible, hierarchical structures",
-      "Iterative thought evolution",
-      "Non-intrusive AI assistance",
-    ],
-    notes: [
-      "The formative study involved 8 participants using speech for self-proposed planning, writing, and problem-solving tasks.",
-      "Participants needed semantic inspection, flexible restructuring, visible evolution, and agency-preserving AI.",
-      "These needs become the design goals that explain the Orality interface.",
-    ],
-    points: [
-      {
-        label: "DG1",
-        title: "Semantic inspection",
-        body: "Transform sequential speech into a 2D representation so users can inspect topics, relationships, and the shape of an argument.",
-      },
-      {
-        label: "DG2",
-        title: "Flexible restructuring",
-        body: "Let users define and revise task-specific schemas, from timelines to story blueprints to project outlines.",
-      },
-      {
-        label: "DG3",
-        title: "Visible evolution",
-        body: "Make retelling, revision, and reorganization visible so users can compare versions and monitor their own logic.",
-      },
-      {
-        label: "DG4",
-        title: "Agency-preserving AI",
-        body: "Provide questions, gaps, and conflicts on demand, while avoiding rigid over-interpretation or control takeover.",
-      },
-    ],
-  },
-  {
-    id: "system-overview",
-    section: "System",
-    title: "System Overview",
-    subtitle: "The canvas turns speech into inspectable, editable structure.",
-    layout: "figure-focus",
-    presenterMove:
-      "Use Figure 1 as an observation exercise before explaining every component.",
-    icon: Workflow,
-    tone: "green",
-    slots: [
-      "Speech input",
-      "Topic and content nodes",
-      "Verbal instruction panel",
-      "AI questions and conflicts",
-      "Thought evolution and export",
-    ],
-    notes: [
-      "Speech creates topic and content nodes on a semantic canvas.",
-      "AI questions and conflicts appear as local objects near the thoughts they refer to.",
-      "The user keeps steering through speech, selection, manual edits, history, and export.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure01_main_interface.png`,
-        alt: "Orality interface overview",
-        caption:
-          "Figure 1: full interface with canvas, verbal controls, AI stimulation, history, and export.",
-        width: 2940,
-        height: 1818,
-      },
-    ],
-    points: [
-      {
-        label: "Canvas",
-        title: "Thoughts become nodes",
-        body: "Topic and content nodes preserve a non-linear structure that can be moved, selected, and revised.",
-      },
-      {
-        label: "AI",
-        title: "Support appears locally",
-        body: "Questions and conflicts sit near the thoughts they are meant to develop.",
-      },
-      {
-        label: "User",
-        title: "Agency remains visible",
-        body: "The user keeps steering through speech, selection, canvas edits, history, and export choices.",
-      },
-    ],
-  },
-  {
-    id: "conceptual-framework",
-    section: "System",
-    title: "Conceptual Framework",
-    body: "The authors adapt Pirolli and Card's sensemaking model to speech-driven personal thought clarification.",
-    layout: "figure-focus",
-    presenterMove:
-      "Use the framework to show that the features are not just a feature list.",
-    icon: Brain,
-    tone: "blue",
-    slots: [
-      "Thought externalization",
-      "Structuring and schematizing",
-      "Elaboration and deepening",
-      "Reflection and presentation",
-    ],
-    notes: [
-      "The authors adapt a sensemaking loop to personal thought clarification.",
-      "The four phases are externalization, structuring, elaboration, and reflection or presentation.",
-      "Orality's features correspond to these phases instead of being an arbitrary feature list.",
-    ],
-    points: [
-      {
-        label: "01",
-        title: "Thought Externalization",
-        body: "Speech turns messy internal thoughts into external material.",
-      },
-      {
-        label: "02",
-        title: "Structuring and Schematizing",
-        body: "The semantic canvas organizes those thoughts into editable nodes and topics.",
-      },
-      {
-        label: "03",
-        title: "Elaboration and Deepening",
-        body: "AI asks questions and detects conflicts to push thinking further.",
-      },
-      {
-        label: "04",
-        title: "Reflection and Presentation",
-        body: "Users review thought evolution and export a memo.",
-      },
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure02_conceptual_framework.png`,
-        alt: "Conceptual framework for thought clarification",
-        caption:
-          "Figure 2: four layers of self thought clarification grounded in sensemaking theory.",
-        width: 1390,
-        height: 600,
-      },
-    ],
-  },
-  {
-    id: "voice-restructuring",
-    section: "Interaction",
-    title: "Voice Restructures the Canvas",
-    subtitle: "Speech is both content input and structural command.",
-    headline:
-      "The core interaction shift: users speak thoughts into the canvas, then speak commands to reorganize the canvas.",
-    layout: "figure-focus",
-    presenterMove:
-      "Emphasize local versus global verbal restructuring as the first interaction novelty.",
-    icon: AudioLines,
-    tone: "amber",
-    slots: [
-      "Content dictation",
-      "Local instruction on selected topics",
-      "Global instruction over the whole canvas",
-      "Merge, split, create, restructure",
-    ],
-    notes: [
-      "Speech is both content input and structural command.",
-      "Local commands operate on selected thoughts; global commands reorganize the whole canvas.",
-      "The key difference from a transcript is that speech can refer to and restructure visible objects.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure03_verbal_restructuring.png`,
-        alt: "Verbal restructuring commands in Orality",
-        caption:
-          "Figure 3: local and global verbal instructions restructure selected topics or the whole canvas.",
-        width: 1450,
-        height: 850,
-      },
-    ],
-    points: [
-      {
-        label: "Local",
-        title: "Operate on selected thoughts",
-        body: "A user can focus AI restructuring on a chosen topic instead of the whole conversation.",
-      },
-      {
-        label: "Global",
-        title: "Change the whole schema",
-        body: "The canvas can be reorganized around a new structure when the user's framing changes.",
-      },
-    ],
-  },
-  {
-    id: "embedded-scaffolds",
-    section: "Interaction",
-    title: "AI Questions and Conflict Checks",
-    subtitle: "AI questions and conflicts become visible objects.",
-    headline:
-      "The best transferable pattern: AI support should attach to specific user-authored objects.",
-    layout: "figure-focus",
-    presenterMove:
-      "Name this pattern clearly because it is the idea that travels beyond Orality.",
-    icon: MessageSquareQuote,
-    tone: "green",
-    slots: [
-      "Ask Me Questions",
-      "Show Me Conflicts",
-      "Question nodes",
-      "Conflict edges",
-      "Scaffold rather than replacement",
-    ],
-    notes: [
-      "AI support is spatial and inspectable, not just another chat response.",
-      "Question nodes help deepen underdeveloped parts of the canvas.",
-      "Conflict edges make contradictions visible so the user can accept, ignore, or repair them.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure04_ai_suggestions_conflicts.png`,
-        alt: "AI question nodes and conflict edges",
-        caption:
-          "Figure 4: question nodes and conflict edges embedded in the user's semantic canvas.",
-        width: 6342,
-        height: 3550,
-      },
-    ],
-    points: [
-      {
-        label: "Question nodes",
-        title: "Deepen underdeveloped areas",
-        body: "AI asks targeted questions where the canvas lacks detail.",
-      },
-      {
-        label: "Conflict edges",
-        title: "Make tension inspectable",
-        body: "Detected contradictions become labeled relationships the user can accept, ignore, or repair.",
-      },
-    ],
-  },
-  {
-    id: "implementation",
-    section: "Method",
-    title: "Implementation Details",
-    subtitle: "",
-    layout: "pipeline",
-    presenterMove:
-      "Keep this slide short. The audience needs the pipeline and fragility points, not implementation trivia.",
-    icon: Network,
-    tone: "blue",
-    slots: [
-      "AssemblyAI transcription",
-      "GPT-5 chunking and entity extraction",
-      "Sentence embeddings",
-      "PCA placement",
-      "Dynamic layout refinement",
-    ],
-    notes: [
-      "The pipeline is transcription, LLM chunking/entity extraction, embedding, PCA placement, and layout refinement.",
-      "The implementation explains both what is possible and where errors can enter.",
-      "Misclassification, poor chunking, or bad layout can affect clarity and user agency.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure07_system_architecture.png`,
-        alt: "Orality system architecture",
-        caption:
-          "Figure 7: transcription, LLM extraction, embeddings, PCA layout, and dynamic refinement.",
-        width: 1120,
-        height: 760,
-      },
-    ],
-    points: [
-      {
-        label: "01",
-        title: "Transcribe",
-        body: "Speech is captured in real time and sent to the backend.",
-      },
-      {
-        label: "02",
-        title: "Chunk",
-        body: "LLM prompts extract short content nodes and topic entities.",
-      },
-      {
-        label: "03",
-        title: "Place",
-        body: "Embeddings and PCA position topics by semantic distance.",
-      },
-      {
-        label: "04",
-        title: "Refine",
-        body: "Similarity-based forces pull related nodes closer over time.",
-      },
-    ],
-  },
-  {
-    id: "evaluation-task",
-    section: "Evidence",
-    title: "Evaluation Task",
-    subtitle: "",
-    headline:
-      "Participants clarified their own messy topics, not a fixed benchmark problem.",
-    layout: "cards",
-    presenterMove:
-      "Explain the task before the baseline and result slides, because the open-ended design explains why the quantitative result is bounded.",
-    icon: SearchCheck,
-    tone: "coral",
-    slots: [
-      "Thought Clarification task",
-      "Two participant-proposed topics",
-      "20-minute recommended sessions",
-      "Organize, do not outsource content",
-    ],
-    notes: [
-      "Participants clarified their own messy topics rather than solving a fixed benchmark task.",
-      "Each person used Orality for one topic and the ChatGPT baseline for another, with order counterbalanced.",
-      "The task was organization and clarification, not asking the system to generate the content.",
-    ],
-    points: [
-      {
-        label: "Task",
-        title: "Thought clarification",
-        body: "Participants verbalized, externalized, organized, and refined their own thinking around a messy topic.",
-      },
-      {
-        label: "Topic",
-        title: "Self-proposed problems",
-        body: "Each person brought two personal topics, such as project planning, strategy making, or comparative decisions.",
-        bullets: [
-          "UX researcher internship self-introduction",
-          "Research classification framework planning",
-          "Career or city-choice comparisons",
-        ],
-        showBodyWithBullets: true,
-      },
-      {
-        label: "Condition",
-        title: "One topic per tool",
-        body: "Each participant used Orality for one topic and the ChatGPT baseline for the other, with order counterbalanced.",
-      },
-      {
-        label: "Constraint",
-        title: "Clarify, not generate",
-        body: 'Participants were told to treat the system as an organizer and avoid prompts like "help me generate a plan."',
-      },
-    ],
-  },
-  {
-    id: "problem-position",
-    section: "Evidence",
-    title: "Evaluation Baseline",
-    subtitle:
-      "The comparison is against speech + ChatGPT outline + text mindmap.",
-    headline:
-      "The baseline is not a blank page. It is dictation plus ChatGPT outline plus text mindmap.",
-    body: "Orality's claim depends on a contrast: chat can summarize and suggest, but it does not give the user a persistent, directly manipulable thought object.",
-    layout: "comparison",
-    presenterMove:
-      "Introduce the baseline as part of the evaluation before showing the quantitative result.",
-    icon: Scale,
-    tone: "amber",
-    slots: [
-      "Baseline: speech plus ChatGPT outline",
-      "Generated text mindmap",
-      "Failure: structure belongs to the chat",
-      "Evaluation contrast before results",
-    ],
-    notes: [
-      "The baseline is speech + ChatGPT outline + text mindmap.",
-      "ChatGPT can summarize and organize speech, so this is not a weak baseline.",
-      "The key contrast is manipulability: Orality gives the user a persistent thought object, while chat gives generated text.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure08_baseline_interface.png`,
-        alt: "ChatGPT baseline interface",
-        caption:
-          "Figure 8: speech-to-text baseline with ChatGPT outline and text mindmap.",
-        width: 1280,
-        height: 1158,
-      },
-    ],
-    points: [
-      {
-        label: "Strong current answer",
-        title: "ChatGPT can organize speech",
-        body: "It can turn a spoken dump into an outline or generated mindmap.",
-      },
-      {
-        label: "Failure mode",
-        title: "Reading long transcripts is tedious",
-        body: "The user must parse generated text and conversation history instead of shaping the object directly.",
-      },
-    ],
-  },
-  {
-    id: "evaluation",
-    section: "Evidence",
-    title: "Evaluation Results",
-    subtitle: "The evidence is strongest as qualitative interaction insight.",
-    headline:
-      "8 / 12 preferred Orality for thinking, but clarity gains were not statistically significant.",
-    layout: "evidence",
-    presenterMove:
-      "Lead with the honest result. The paper is stronger when you do not oversell the chart.",
-    icon: ChartNoAxesCombined,
-    tone: "coral",
-    slots: [
-      "Within-subject study with 12 participants",
-      "ChatGPT baseline",
-      "Higher descriptive clarity rating",
-      "No significant clarity or workload difference",
-      "Qualitative workflow differences",
-    ],
-    notes: [
-      "8 of 12 participants preferred Orality for thinking.",
-      "The quantitative clarity differences were not statistically significant.",
-      "The result is best read as promising qualitative evidence, not proof that Orality beats ChatGPT across the board.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure10_thought_clarity_ratings.png`,
-        alt: "Thought clarity ratings",
-        caption:
-          "Figure 10: descriptive clarity advantage, with no statistically significant difference.",
-        width: 1513,
-        height: 593,
-      },
-    ],
-    points: [
-      {
-        label: "Setup",
-        title: "Within-subject comparison",
-        body: "Participants used Orality and a speech-to-ChatGPT baseline on self-proposed clarification tasks.",
-      },
-      {
-        label: "Result",
-        title: "Promising but bounded",
-        body: "Orality trends higher and receives stronger thinking-process preference, but the quantitative claim is limited.",
-      },
-      {
-        label: "Interpretation",
-        title: "Look at workflows",
-        body: "The interesting result is how people appropriated the tool, not just the mean score.",
-      },
-    ],
-  },
-  {
-    id: "workflow-strategies",
-    section: "Evidence",
-    title: "What Users Actually Did",
-    layout: "figure-focus",
-    presenterMove:
-      "Use this slide as the evaluation reveal: the system supports different styles of thinking.",
-    icon: Milestone,
-    tone: "green",
-    slots: [
-      "Master Commanders",
-      "Hands-on Mapmakers",
-      "Lazy Talkers",
-      "Different balances of speech, manual control, and AI",
-    ],
-    notes: [
-      "The qualitative finding is that users appropriated the tool in different ways.",
-      "Master Commanders steered mostly through detailed voice instructions.",
-      "Hands-on Mapmakers used manual canvas arrangement as part of thinking, while Lazy Talkers dumped speech first and structured later.",
-    ],
-    figures: [
-      {
-        src: `${oralityFigureBase}/figure13_workflow_strategies.png`,
-        alt: "Three workflow strategies in Orality",
-        caption:
-          "Figure 13: Master Commanders, Hands-on Mapmakers, and Lazy Talkers.",
-        width: 760,
-        height: 430,
-      },
-    ],
-    points: [
-      {
-        label: "Master Commanders",
-        title: "Use voice as steering",
-        body: "Some users relied on detailed verbal instructions and low manual movement.",
-      },
-      {
-        label: "Hands-on Mapmakers",
-        title: "Use canvas as workspace",
-        body: "Some users used manual spatial arrangement as part of thinking.",
-      },
-      {
-        label: "Lazy Talkers",
-        title: "Use AI as organizer",
-        body: "Some users spoke a lot first and used high-level structuring later.",
-      },
-    ],
-  },
-  {
-    id: "critical-read",
-    section: "Critique",
-    title: "Critical Read and Takeaways",
-    subtitle: "",
-    headline:
-      "The question is not whether the canvas is always better. It is when visible scaffolding is worth the extra work.",
-    layout: "takeaways",
-    presenterMove:
-      "Give a fair read: accept the interaction pattern, qualify the evidence, contest overgeneralization, transfer the design principle.",
-    icon: Brain,
-    tone: "amber",
-    slots: [
-      "Accept: visual scaffolds",
-      "Qualify: small study and non-significant measures",
-      "Contest: extra metacognitive workload",
-      "Transfer: attach AI to user-authored objects",
-    ],
-    notes: [
-      "The strong part is visible AI scaffolding inside a user-controlled representation.",
-      "The evidence is still early: small study, variable tasks, qualitative strength, and no significant clarity difference.",
-      "The main risk is extra workload from repairing chunks, categories, conflicts, and visual overload.",
-      "The transferable idea is object-scoped AI for user-authored artifacts.",
-    ],
-    points: [
-      {
-        label: "Accept",
-        title: "Visual scaffold is strong",
-        body: "AI questions and conflicts inside the canvas are easier to inspect than chat answers.",
-      },
-      {
-        label: "Qualify",
-        title: "Evidence is early",
-        body: "Small lab study, variable tasks, qualitative strength, and no significant clarity difference.",
-      },
-      {
-        label: "Contest",
-        title: "Scaffolding can become workload",
-        body: "Users may need to repair wrong chunks, bad categories, missed conflicts, or visual overload.",
-      },
-      {
-        label: "Transfer",
-        title: "Use object-scoped AI",
-        body: "Attach prompts, critiques, and summaries to visible user-authored objects in our own tools.",
-      },
-    ],
-  },
-  {
-    id: "related-orca",
-    section: "Related",
-    title:
-      "Orca: Browsing at Scale Through User-Driven and AI-Facilitated Orchestration Across Malleable Webpages",
-    shortTitle: "Orca",
-    subtitle: "",
-    paperMeta: {
-      venue: "CHI 2026",
-      href: "https://dl.acm.org/doi/full/10.1145/3772318.3790335",
+    id: "source-lines",
+    section: "General suggestions",
+    title: "Give every sentence its own source line",
+    shortTitle: "One sentence per line",
+    subtitle: "Make comments precise and sentence edits easy to inspect.",
+    body: {
+      kind: "source",
+      lines: [
+        "The overview shows how response times vary across groups.",
+        "Selecting a group highlights its observations in the scatterplot.",
+        "",
+        "The detail view shows the selected observations over time.",
+      ],
+      points: [
+        {
+          title: "Point to a sentence",
+          text: "A source line gives feedback a clear target.",
+        },
+        {
+          title: "Read the change",
+          text: "A diff makes individual sentence edits visible.",
+        },
+      ],
     },
-    headline:
-      "Orca keeps users in the loop by making webpages visible, selectable, and operable as canvas objects.",
-    layout: "figure-focus",
-    presenterMove:
-      "Use Orca as the closest interaction cousin: AI is scoped to visible objects rather than hidden prompt context.",
-    icon: BookOpenText,
-    tone: "ink",
-    slots: [
-      "Problem: cross-page work is fragmented",
-      "System: Web Canvas plus AI operations",
-      "Evaluation: formative eight-person study",
-      "Transfer: selection-scoped AI over artifacts",
-    ],
+    takeaway:
+      "One physical line per prose sentence. A blank line between paragraphs.",
+    prompt:
+      "Write each prose sentence on its own physical line in the `.tex` source, do not wrap it across lines, and separate paragraphs with a blank line.",
+    evidence: "Illustrative TeX source",
     notes: [
-      "Orca turns many webpages into visible, selectable, and operable canvas objects.",
-      "The connection to Orality is object-scoped AI: assistance is bound to visible user-selected context.",
-      "The evidence is formative, so the value is mainly a design reference rather than a proven outcome claim.",
-      "My idea: similar AI-assisted interfaces could support financial analysis over visible documents, charts, and sources.",
+      "Start directly with this practical suggestion. There are 17 content slides: eight minutes for general suggestions, fourteen for the ten pitfalls, and three for applying the guides. Allow up to five additional minutes for discussion.",
+      "Put each prose sentence on one physical line in the TeX source. Feedback such as “the sentence at line 82 is unclear” can identify a sentence, and a diff makes sentence edits easier to inspect.",
+      "This changes source formatting, not the typeset PDF. Line numbers can change after edits, so use the current file when giving feedback.",
+      "Keep equations, tables, and other structured environments in their appropriate source format. Configure any formatter to preserve the sentence-per-line prose layout.",
     ],
-    figures: [
-      {
-        src: `${relatedFigureBase}/orca_canvas.png`,
-        alt: "Orca overview",
-        caption:
-          "Orca: viewing, organizing, extracting, operating, and synthesizing across webpages.",
-        width: 2808,
-        height: 1806,
-      },
+    sources: [],
+  },
+  {
+    id: "paragraph-outline",
+    section: "General suggestions",
+    title: "Keep the intended message beside the prose",
+    shortTitle: "Outline beside the text",
+    subtitle:
+      "Write each paragraph’s outline in LaTeX comments before drafting.",
+    body: {
+      kind: "reasons",
+      points: [
+        {
+          title: "State your intention",
+          text: "Make each paragraph’s main point, emphasis, and role explicit.",
+        },
+        {
+          title: "Keep ideas in sync",
+          text: "Update the nearby outline when the argument changes.",
+        },
+        {
+          title: "Compare intention and result",
+          text: "Check for missing points, misplaced emphasis, and detours.",
+        },
+      ],
+    },
+    takeaway:
+      "Read the outline and paragraph together to check what the text actually conveys.",
+    prompt:
+      "Before drafting, write each paragraph's main point, intended emphasis, and logical link to the next paragraph in LaTeX comments immediately above it, check the outline's flow, keep the comments synchronized when the ideas change, and verify that the prose conveys the stated message and emphasis.",
+    evidence: "Writing workflow suggestion",
+    notes: [
+      "There are three reasons to keep an outline beside its paragraph. First, the agent cannot perfectly infer what you want to convey or emphasize. State the main point, emphasis, and logical role before drafting.",
+      "Second, core ideas can change during revision. A separate outline file requires maintaining those ideas in two places, making divergence easier. Keep the comments near the prose and update both when the ideas change.",
+      "Third, reading the outline alongside the paragraph exposes missing points, misplaced emphasis, and unnecessary detours. Fluent text can still fail to convey the intended message.",
+      "The comments should explain what each paragraph establishes and how it connects to the next. Check the flow before expanding the outline into prose.",
     ],
-    points: [
+    sources: [
       {
-        label: "Problem",
-        title: "Tabs fragment broad web work",
-        body: "Cross-page exploration, comparison, extraction, and synthesis are expensive in a linear tab stack.",
-      },
-      {
-        label: "System",
-        title: "Pages become workspace objects",
-        body: "A Web Canvas supports grids, stacks, extraction, contextual expansion, summaries, and visible agents.",
-      },
-      {
-        label: "Connection",
-        title: "Scope AI to visible artifacts",
-        body: "Like Orality, Orca makes AI assistance inspectable by binding operations to selected objects.",
-      },
-      {
-        label: "My idea",
-        title: "AI-assisted financial analysis",
-        body: "Maybe we can design similar AI-assisted interfaces for financial analysis.",
-        emphasis: true,
+        label: "Writing pitfalls",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md",
       },
     ],
   },
   {
-    id: "related-ai-personality",
-    section: "Related",
-    title:
-      "AI-exhibited Personality Traits Can Shape Human Self-concept through Conversations",
-    shortTitle: "AI Personality",
-    subtitle: "",
-    paperMeta: {
-      venue: "CHI 2026",
-      href: "https://dl.acm.org/doi/full/10.1145/3772318.3790654",
+    id: "ultra-review",
+    section: "General suggestions",
+    title: "Keep your attention on the writing",
+    shortTitle: "Ultra and independent review",
+    subtitle:
+      "Let the agent organize delegation and review while you develop the argument.",
+    body: {
+      kind: "workflow",
+      recommendation: "GPT-6 Astra Ultra",
+      context:
+        "In ChatGPT Work, Ultra can initiate suitable delegation without a separate request.",
+      steps: [
+        {
+          title: "Draft",
+          text: "Give the writing agent your intended message and evidence.",
+        },
+        {
+          title: "Review",
+          text: "A subagent with fresh context checks the text against the guidelines.",
+        },
+        {
+          title: "Improve",
+          text: "The writing agent addresses supported findings before returning the draft.",
+        },
+      ],
     },
-    headline:
-      "AI traits are not just style; after personal-topic conversations, users' self-concepts moved toward the chatbot's measured trait profile.",
-    layout: "figure-focus",
-    presenterMove:
-      "Use this as the cautionary ending: scaffolding thought also means shaping the thinker.",
-    icon: BookOpenText,
-    tone: "coral",
-    slots: [
-      "Problem: AI personality as social influence",
-      "Method: pre/post self-concept vectors",
-      "Result: short-term alignment and homogenization",
-      "Transfer: audit user-state effects",
-    ],
+    takeaway:
+      "Set the review expectation once. Stay focused on the argument and final content.",
+    prompt:
+      "After drafting or revising, have a subagent with fresh context review the text against our writing guidelines, then improve the draft based on its findings.",
+    evidence: "OpenAI workflow recommendation",
     notes: [
-      "This paper asks whether chatbot personality can shift users' self-concept.",
-      "After personal-topic conversations, users' self-descriptions moved toward the AI's measured trait profile.",
-      "My read: we are shaping AI, and AI is shaping us as well.",
-      "My idea: AI could guide mental health support, but the influence on users needs careful responsibility.",
+      "For this OpenAI workflow, recommend an Ultra model such as GPT-6 Astra Ultra. In ChatGPT Work, other intelligence levels require an explicit request to use subagents, while Ultra can delegate suitable work on its own.",
+      "The practical benefit is preserving your train of thought. Remembering to request subagents shifts attention from the paper to managing agents. Set the expectation once and let the agent organize suitable review work as writing proceeds.",
+      "Have a reviewer with fresh context check the draft and return findings to the writing agent. The writer can address gaps, unclear explanations, and other supported findings before returning the revised text.",
+      "Keep your attention on the argument, emphasis, and final content. The documented distinction between requested and proactive delegation is specific to ChatGPT Work.",
     ],
-    figures: [
+    sources: [
       {
-        src: `${relatedFigureBase}/ai_personality_overview.png`,
-        alt: "AI personality study overview",
-        caption:
-          "AI Personality: same AI trait profile, pre/post self-concept measurement, and alignment after conversation.",
-        read: "We are shaping AI and AI is shaping us as well.",
-        idea: "Maybe we can use AI to guide people to improve their mental health.",
-        width: 4647,
-        height: 2338,
-      },
-    ],
-    points: [
-      {
-        label: "Question",
-        title: "Can AI traits shape self-concept?",
-        body: "The paper studies whether users' personality self-descriptions move toward an AI's measured traits.",
-      },
-      {
-        label: "Evidence",
-        title: "Personal topics matter",
-        body: "In a 92-participant study, alignment was significant especially after personal-topic conversations.",
-      },
-      {
-        label: "Connection",
-        title: "Evaluate effects on users",
-        body: "For Orality-like systems, success should include user agency and psychological side effects, not only task output.",
+        label: "OpenAI subagent documentation",
+        href: "https://learn.chatgpt.com/docs/agent-configuration/subagents",
       },
     ],
   },
   {
-    id: "related-visual-metaphors",
-    section: "Related",
-    title: "Unpacking Visual Metaphors in Infographics: A Design Space",
-    shortTitle: "Visual Metaphors",
-    subtitle: "",
-    paperMeta: {
-      venue: "CHI 2026",
-      href: "https://dl.acm.org/doi/full/10.1145/3772318.3790840",
+    id: "plain-writing",
+    section: "General suggestions",
+    title: "Use plain words and keep the meaning",
+    shortTitle: "Plain words, same meaning",
+    subtitle:
+      "Remove verbal overhead while preserving quantities, conditions, and uncertainty.",
+    body: {
+      kind: "comparisons",
+      rows: [
+        {
+          before:
+            "The interface makes use of color in order to communicate the category to which each node belongs.",
+          after: "The interface uses color to show each node's category.",
+        },
+        {
+          before:
+            "In the course of the study, six of the ten participants made use of the history view for the purpose of revisiting previous selections.",
+          after:
+            "During the study, six of the ten participants used the history view to revisit previous selections.",
+        },
+        {
+          before:
+            "This representation may facilitate the identification of outliers, but it does not provide information about the causes of those outliers.",
+          after:
+            "This representation may help identify outliers, but it provides no information about their causes.",
+        },
+      ],
     },
-    headline:
-      "The paper turns visual metaphor ideation into target, source, and reconstruction choices that can guide generative AI.",
-    layout: "figure-focus",
-    presenterMove:
-      "Use this paper to close with the design-structure theme: generation improves when the intermediate design space is explicit.",
-    icon: BookOpenText,
-    tone: "blue",
-    slots: [
-      "Problem: metaphor ideation is ad hoc",
-      "Contribution: coded design space",
-      "Evaluation: designers prefer guided generations",
-      "Transfer: structure before generation",
-    ],
+    takeaway:
+      "Check that the numbers, “may,” and consequential limitation survive.",
+    prompt:
+      "Read `vis-writing-guidelines/vis-writing-style.md` and follow it when drafting or editing, using plain words and concrete actions while preserving the original claims, quantities, conditions, and uncertainty.",
+    evidence: "Illustrative pairs with the same meaning",
     notes: [
-      "The paper makes visual metaphor design explicit through target insight, source property, and reconstruction strategy.",
-      "Designers preferred design-space-guided generations for novelty, effectiveness, diversity, and satisfaction.",
-      "This could be useful for Nanyi's work if the goal involves structured ideation for visual explanations.",
-      "The evidence is designer preference, not necessarily reader comprehension or data-fidelity proof.",
+      "Ask the agent to follow VIS Writing Style. Plain writing should retain the actor, action, objects, quantities, conditions, and strength of the claim.",
+      "The three visible pairs preserve meaning. Six of ten remains six of ten, and possible help identifying outliers must not become a guarantee. The lack of causal information remains explicit.",
+      "Another pair: “The interface provides users with the capability to conduct a side-by-side comparison of two versions of a chart.” becomes “The interface lets users compare two chart versions side by side.”",
+      "Another pair: “Users can specify a time interval for the purpose of restricting the displayed observations to those recorded within that interval.” becomes “Users can select a time interval to show only observations recorded within it.”",
+      "These are newly written teaching examples inspired by the style guide. Some guide examples also replace vague claims with specific capabilities or findings. Those changes require knowing what the system does or what the study found and cannot be justified by style alone.",
     ],
-    figures: [
+    sources: [
       {
-        src: `${relatedFigureBase}/visual_metaphors_design_space.png`,
-        alt: "Visual metaphors design space",
-        caption:
-          "Visual Metaphors: target insight, source property, and reconstruction strategy as design variables.",
-        read: "Maybe useful for Nanyi's work.",
-        width: 1370,
-        height: 725,
-      },
-    ],
-    points: [
-      {
-        label: "Contribution",
-        title: "2,029 examples become a design space",
-        body: "The authors code metaphoric infographics by target insight, source property, and reconstruction strategy.",
-      },
-      {
-        label: "Evaluation",
-        title: "Guided generation performs better",
-        body: "Designers preferred design-space-augmented outputs for novelty, effectiveness, diversity, and satisfaction.",
+        label: "VIS Writing Style",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-style.md",
       },
     ],
   },
-];
-
-export const templatePrinciples = [
-  "AI should scaffold human thinking inside inspectable representations.",
-  "The talk dives deep into Orality, then uses three papers to broaden the pattern.",
-  "Do not overclaim the evaluation; keep the critique specific.",
-];
-
-export const sectionOrder = [
-  "Setup",
-  "Hook",
-  "Motivation",
-  "Problem",
-  "Novelty",
-  "Contributions",
-  "System",
-  "Interaction",
-  "Method",
-  "Evidence",
-  "Critique",
-  "Related",
+  {
+    id: "research-context",
+    section: "General suggestions",
+    title: "Give the agent the context behind the paper",
+    shortTitle: "Share the research context",
+    subtitle:
+      "Let it consult the materials that explain the method and support the results.",
+    body: {
+      kind: "context",
+      materials: [
+        {
+          title: "Manuscript",
+          text: "The argument and reported claims",
+        },
+        {
+          title: "Implementation",
+          text: "How the system works",
+        },
+        {
+          title: "Study materials",
+          text: "How the study was conducted",
+        },
+        {
+          title: "Data and analysis",
+          text: "What supports the results",
+        },
+      ],
+      arrangements: [
+        {
+          title: "Keep them together",
+          text: "Use one repository for the paper and related research materials.",
+        },
+        {
+          title: "Provide their paths",
+          text: "Identify separate folders and explain what each contains.",
+        },
+      ],
+    },
+    takeaway:
+      "Record the locations in a short README so the context survives across sessions.",
+    prompt:
+      "Use the manuscript in [paper path], implementation in [code path], and study data and analysis in [study path] as context for writing, and consult the relevant materials when describing the method or reporting results.",
+    evidence: "Writing workflow suggestion",
+    notes: [
+      "A repository or Overleaf project containing only TeX sources gives the agent the manuscript. Writing the paper also requires information from the implementation, user study data, study materials, and analysis scripts.",
+      "These materials help the agent understand how the system works, how the study was conducted, and what supports the reported results. Help the writing agent help you by making the relevant information accessible.",
+      "Either keep the paper, implementation, and related research materials in one repository, or provide paths to separate repositories and folders with a short explanation of each. Point to relevant code, data, or analysis when discussing a method or result.",
+      "A short README in the paper project can record the locations across sessions. Tell the agent to consult the relevant materials when needed.",
+    ],
+    sources: [],
+  },
+  {
+    id: "surrounding-argument",
+    section: "Writing pitfalls",
+    title: "Read the passage around every edit",
+    shortTitle: "Check the surrounding argument",
+    subtitle:
+      "A clearer sentence can leave a broken reference in the next paragraph.",
+    pitfall: 1,
+    body: {
+      kind: "handoff",
+      original: "P1 explains differences in response times between groups.",
+      edited: "P1 now describes the interface layout.",
+      next: "These differences guide users toward groups for closer inspection.",
+      explanation:
+        "“These differences” no longer has an explanation to refer to.",
+    },
+    takeaway:
+      "Read the preceding paragraph, the revised passage, and the following paragraph together.",
+    evidence: "Illustrative example · Writing pitfall 1",
+    notes: [
+      "The next ten slides follow the writing guide’s order. Allow roughly 80–90 seconds per pitfall, spending longer on the structural repair and less on short sentence examples.",
+      "A local edit can leave repetition, an ambiguous reference, a missing premise, or a broken transition elsewhere. P2 still refers to differences after P1 has changed to discuss the layout.",
+      "Restore the relevant comparison or rewrite the handoff according to P2’s purpose. Replacing “these differences” with another generic noun will not supply the missing explanation.",
+      "After a substantive edit, read the preceding paragraph, revised passage, and following paragraph together. Check changed references, repetition, and missing premises.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 1",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#1-repairing-sentences-without-checking-the-surrounding-argument",
+      },
+    ],
+  },
+  {
+    id: "explain-components",
+    section: "Writing pitfalls",
+    title: "Explain why the components are needed",
+    shortTitle: "Explain the method",
+    subtitle:
+      "An inventory teaches vocabulary while leaving the method unexplained.",
+    pitfall: 2,
+    body: {
+      kind: "comparison",
+      beforeLabel: "Inventory",
+      afterLabel: "Explanation",
+      before:
+        "Each comparison specifies a region, a time window, an aggregation method, and a rationale.",
+      after:
+        "Comparing regional trends requires observations from comparable periods. Analysts choose the geographic coverage and time window before aggregating the observations. We store these choices with each result so readers can inspect which observations it includes.",
+      annotation:
+        "Motivate the choices, explain the action, and show how the result is used.",
+    },
+    takeaway:
+      "Can readers explain why it is needed, what happens, and what the result enables?",
+    evidence: "Illustrative example adapted from the guide",
+    notes: [
+      "The weak sentence names fields without explaining why a comparison needs them or how they are determined. Readers learn vocabulary but cannot describe what happens.",
+      "The revision motivates the choices and explains how the recorded information is used. It does not need to list every field before readers understand the comparison.",
+      "This example assumes the described method actually makes and stores these choices. The repair supplies explanatory information and is not merely a meaning-preserving style edit.",
+      "An optional real example is EvoMaestro’s discussion: an inventory of attention routing, filters, and lineage became actions to route attention, compare strategies, and inspect code and evaluation results. Evidence E2 is commit 591c25352f64579598c5c5f355f07e145276eb3b, sections/8-discussion-new.tex, 16 July 2026. Current wording differs slightly from the historical version.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 2",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#2-naming-components-without-explaining-why-they-exist-or-how-they-work",
+      },
+      {
+        label: "EvoMaestro revision",
+        href: "https://github.com/ifsheldon/evolvis-paper/commit/591c25352f64579598c5c5f355f07e145276eb3b",
+      },
+    ],
+  },
+  {
+    id: "useful-examples",
+    section: "Writing pitfalls",
+    title: "Make the example reveal a distinction",
+    shortTitle: "Use examples to explain",
+    subtitle:
+      "Repeating a general claim with domain nouns leaves the same reasoning gap.",
+    pitfall: 3,
+    body: {
+      kind: "missing",
+      original: ["Fix the download bug.", "Change only router.py."],
+      summary: ["Fix the download bug."],
+      explanation: "The repair goal survives. The file restriction disappears.",
+    },
+    takeaway:
+      "What distinction becomes visible, and why does it change the interpretation or decision?",
+    evidence: "ContextProv illustrative example · 58f2e4c",
+    notes: [
+      "A weak example would say: “Summaries can omit important information. For example, an agent’s summary can leave out important instructions.” This repeats the claim without revealing what can be lost.",
+      "ContextProv’s concrete example separates the repair goal from the file restriction. The summary keeps the goal but omits the instruction to change only router.py, explaining why the two should be tracked separately.",
+      "The original instruction can remain in recorded history even when absent from a particular model-call input. Do not conflate absence from one input with absence from the execution record.",
+      "The manuscript itself labels this example illustrative. It is not an observed execution incident. Evidence E3 is ContextProv commit 58f2e4cd99a6bd41f18a03995c9db07c63a2672b, source/4-problem-modeling.tex, 12 September 2026. Search for “Illustrative download fix” in the manuscript.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 3",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#3-using-examples-that-repeat-the-claim-instead-of-explaining-it",
+      },
+    ],
+  },
+  {
+    id: "logical-links",
+    section: "Writing pitfalls",
+    title: "Give the transition a reason to exist",
+    shortTitle: "Explain the logical link",
+    subtitle:
+      "“Then” marks sequence. It does not explain why the next step matters.",
+    pitfall: 4,
+    body: {
+      kind: "comparison",
+      beforeLabel: "Sequence alone",
+      afterLabel: "Reason for the review",
+      before:
+        "Analysts assign interview excerpts to categories. An independent reviewer then checks the assignments.",
+      after:
+        "Category assignments determine which themes appear common. A reviewer checks the assignments against the original excerpts because misclassification could change those conclusions.",
+      annotation:
+        "Interpretive decisions affect the conclusions, creating a reason to check them.",
+    },
+    takeaway:
+      "State the relationship between the ideas before choosing a connecting word.",
+    evidence: "Illustrative example · Writing pitfall 4",
+    notes: [
+      "“Then” shows sequence and “therefore” claims a consequence, but neither supplies a missing reason. A new actor can still appear without a clear purpose.",
+      "The order of activities stays the same here. The revision explains why reviewing category assignments matters for interpreting which themes appear common.",
+      "Before adding a connector, state the relationship in plain language. One step may produce the information needed by the next, or an interpretive decision may create a need for review.",
+      "Keep this distinct from the next pitfall: here a relationship is missing, while the next example contains the necessary ideas in an unhelpful order.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 4",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#4-adding-connecting-words-where-the-logical-relationship-is-missing",
+      },
+    ],
+  },
+  {
+    id: "reader-order",
+    section: "Writing pitfalls",
+    title: "Establish what the reader needs first",
+    shortTitle: "Order ideas for the reader",
+    subtitle:
+      "The right ideas can still force readers to reconstruct the explanation.",
+    pitfall: 5,
+    body: {
+      kind: "sequence",
+      before: [
+        "Introduce groups",
+        "Explain their comparison",
+        "Return to membership criteria",
+      ],
+      after: [
+        "Explain the grouping problem",
+        "Establish membership criteria",
+        "Explain the comparison",
+      ],
+      explanation:
+        "Readers need to know what the groups contain before interpreting a comparison.",
+    },
+    takeaway:
+      "List what each idea depends on, then establish those prerequisites first.",
+    evidence: "Illustrative example · Writing pitfall 5",
+    notes: [
+      "All necessary ideas may be present, yet the passage returns to an unfinished decision after explaining how it is used. Readers must reconstruct the order themselves.",
+      "Establish membership criteria before explaining the comparison. Choose the order that serves the explanation; it need not follow implementation order.",
+      "An optional real example is ContextProv’s introduction of context scopes. It explained differences in what agents receive before naming the scopes representing those differences. Evidence E6 is commit 45e88722fa609437b6922dc0e97271f4f31c7484, source/4-problem-modeling.tex, 9 September 2026.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 5",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#5-ordering-information-without-respecting-what-the-reader-needs-first",
+      },
+    ],
+  },
+  {
+    id: "structural-repair",
+    section: "Writing pitfalls",
+    title: "Check that the promised repair actually happened",
+    shortTitle: "Verify the structural repair",
+    subtitle:
+      "A correct diagnosis can still produce an edit that changes only a phrase.",
+    pitfall: 6,
+    body: {
+      kind: "repair",
+      promise: "I will clarify the conceptual structure.",
+      before: ["Evaluation procedure", "Issue definition introduced later"],
+      after: [
+        "Define an issue",
+        "Introduce an evaluation result",
+        "Explain its verdict",
+        "Identify supporting evidence",
+        "Explain what developers can assess",
+      ],
+      caption:
+        "“Changing individual verbs has not resolved that structural problem.”",
+    },
+    takeaway:
+      "Point to the sentence or paragraph that now supplies each promised explanation.",
+    evidence: "ContextProv revision and conversation · 813a4f7",
+    notes: [
+      "This real ContextProv subsection needed to define an issue and explain an evaluation result. It began with evaluation procedure and introduced the issue definition later. Changing individual verbs did not resolve the mismatch.",
+      "The agent acknowledged in the writing conversation: “Changing individual verbs has not resolved that structural problem.” The promise shown above is illustrative, not a historical quotation.",
+      "The eventual revision defined an issue, introduced an evaluation result, explained its verdict, identified supporting evidence, and explained what developers could assess. This summarizes several exchanges, not a manuscript quotation or a claim that one prompt produced the revision.",
+      "The final text retained an unknown verdict to represent uncertainty. A structural repair must not erase uncertainty merely to make the account sound cleaner.",
+      "For every promised repair, point to the passage that supplies the missing explanation. Read the final text without relying on the agent’s account of what it intended to do.",
+      "Evidence E4 is ContextProv commit 813a4f7ef2c2dd84460dd788fe425c6c9eb640bd, source/4-problem-modeling.tex, 9 September 2026, plus the paper-writing conversation. The acknowledgment follows the whole-subsection review request in turn 01a085fc-6e2c-7590-8316-991dba425133. The later transitions comment is in turn 01a08612-726e-7113-8bf2-e57fafb48b86.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 6",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#6-proposing-a-structural-repair-but-implementing-only-a-wording-change",
+      },
+    ],
+  },
+  {
+    id: "reader-context",
+    section: "Writing pitfalls",
+    title: "Supply the context your reader is missing",
+    shortTitle: "Supply the missing context",
+    subtitle:
+      "Removing jargon alone can leave the same gap in the explanation.",
+    pitfall: 7,
+    body: {
+      kind: "comparison",
+      beforeLabel: "Too generic",
+      afterLabel: "Enough context",
+      before: "A filter receives data and produces a subset.",
+      after:
+        "The filter selects observations whose recorded timestamps fall within the interval chosen by the analyst.",
+      annotation:
+        "Name who chooses the interval, what is examined, and the selection rule.",
+    },
+    takeaway:
+      "What actors, objects, and assumptions does an unfamiliar reader need next?",
+    evidence: "Illustrative example · Writing pitfall 7",
+    notes: [
+      "An explanation may work in conversation because the author and agent already know the actors, domain, and preceding decisions. The paper must supply those premises for a reader.",
+      "The generic filter sentence contains little jargon but still explains very little. The more informative version identifies the analyst, recorded timestamps, and the chosen interval that determines selection.",
+      "This is an illustrative system. Plain writing must retain the specific information that makes the explanation useful. Replacing specialist nouns with generic ones is not enough.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 7",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#7-assuming-the-reader-shares-the-authors-conversational-context",
+      },
+    ],
+  },
+  {
+    id: "separate-cases",
+    section: "Writing pitfalls",
+    title: "Separate the cases without losing their conditions",
+    shortTitle: "Separate the cases",
+    subtitle:
+      "Nested comparisons can hide a distinction even when every clause is accurate.",
+    pitfall: 8,
+    body: {
+      kind: "distinctions",
+      sentence:
+        "The interface distinguishes records missing from the source dataset from records present in that dataset but excluded from the displayed subset.",
+      cases: [
+        {
+          title: "Missing from the source",
+          text: "The record is absent from the source dataset.",
+        },
+        {
+          title: "Excluded from the display",
+          text: "The record is present in the source dataset but excluded from the displayed subset.",
+        },
+      ],
+    },
+    takeaway:
+      "Name the cases separately and keep both the source and display conditions.",
+    evidence: "Illustrative example · Writing pitfall 8",
+    notes: [
+      "The dense sentence asks readers to hold two locations and two absence conditions inside one nested comparison.",
+      "A clearer sentence is: “The interface distinguishes two cases: a record is missing from the source dataset, or it is present but excluded from the displayed subset.” Present the cases on separate lines when speaking.",
+      "Keep both conditions: absence from the source dataset differs from presence in that dataset combined with exclusion from the display. Shortening the sentence must not merge these cases.",
+      "Ask whether cases, actors, or locations can be named separately without losing a necessary condition.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 8",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#8-packing-several-distinctions-into-one-comparison",
+      },
+    ],
+  },
+  {
+    id: "explain-qualifications",
+    section: "Writing pitfalls",
+    title: "Explain the method behind the qualification",
+    shortTitle: "Explain the qualification",
+    subtitle:
+      "Saying that a method is careful does not explain what it actually does.",
+    pitfall: 9,
+    body: {
+      kind: "comparison",
+      beforeLabel: "Vague qualification",
+      afterLabel: "Method explanation",
+      before:
+        "The displayed links rely on the available evidence and do not assume that similar observations have the same source.",
+      after:
+        "We link each plotted observation to its source row using the dataset identifier and row index.",
+      annotation:
+        "This illustrative system uses a dataset identifier and row index to establish each link.",
+    },
+    takeaway:
+      "Explain the concrete method, condition, or consequence that readers need.",
+    evidence: "Illustrative example · Writing pitfall 9",
+    notes: [
+      "The setup matters: this illustrative system links plotted observations to source rows using a dataset identifier and row index. That fact supports the method explanation and cannot be inferred from the vague sentence alone.",
+      "The repair explains the actual basis for the links. A claim about respecting evidence can sound careful while leaving the underlying action unspecified.",
+      "Preserve uncertainty that affects the conclusion. If a condition changes what can be concluded, explain its consequence. Unavailable observation durations prevent computing rates even when event counts are known.",
+      "This pitfall concerns a missing explanation behind a defensive qualification. The next concerns a qualification that is specific but answers a different question from the paragraph.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 9",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#9-replacing-explanation-with-defensive-qualifications",
+      },
+    ],
+  },
+  {
+    id: "relevant-qualifications",
+    section: "Writing pitfalls",
+    title: "Keep qualifications relevant to the current claim",
+    shortTitle: "Keep qualifications relevant",
+    subtitle:
+      "A true limitation can still interrupt a paragraph by changing the question.",
+    pitfall: 10,
+    body: {
+      kind: "comparison",
+      beforeLabel: "Distracting qualification",
+      afterLabel: "Focused explanation",
+      before:
+        "Selecting a bar highlights the corresponding observations in the scatterplot, but it does not explain why the groups differ.",
+      after:
+        "Selecting a bar highlights the corresponding observations in the scatterplot.",
+      annotation:
+        "The paragraph explains how linked selection connects a summary to its observations.",
+    },
+    takeaway:
+      "What would readers misunderstand about this claim without the qualification?",
+    evidence: "Illustrative example · Writing pitfall 10",
+    notes: [
+      "The paragraph explains how linked selection connects a group summary to individual observations. The removed clause changes the subject from inspecting observations to explaining causes.",
+      "The limitation can be accurate and specific. Its problem here is relevance and placement, unlike the vague defensiveness in pitfall 9.",
+      "A causal limitation may belong in a discussion of causal interpretation if the paper makes claims about that capability. It does not follow merely from describing linked selection.",
+      "Ask what readers would misunderstand about the current claim without the qualification. If the answer concerns a different capability, reconsider its placement.",
+    ],
+    sources: [
+      {
+        label: "Writing pitfall 10",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md#10-adding-out-of-place-qualifications",
+      },
+    ],
+  },
+  {
+    id: "review-draft",
+    section: "Applying the guides",
+    title: "Make the ten pitfalls a review routine",
+    shortTitle: "Review the draft",
+    subtitle:
+      "Ask for concrete findings, then check whether the edits resolve them.",
+    body: {
+      kind: "prompt",
+      steps: [
+        {
+          title: "Locate the problem",
+          text: "Read the guide and identify concrete issues with file and line references.",
+        },
+        {
+          title: "Repair the explanation",
+          text: "Revise affected passages and their paragraph-outline comments.",
+        },
+        {
+          title: "Read the result",
+          text: "Check neighboring paragraphs and preserve supported claims.",
+        },
+      ],
+    },
+    takeaway: "A review need not find a problem for every pitfall.",
+    prompt:
+      "Read `vis-writing-guidelines/vis-writing-pitfalls.md` and check the draft against all ten pitfalls, citing file and line references for each concrete problem and explaining the needed repair.\nRevise the affected passages, keep their paragraph-outline comments consistent, and reread the result with its neighboring paragraphs to verify that the explanation actually improved without changing supported claims.\nDo not invent a problem merely to produce a finding for every pitfall.",
+    evidence: "Copyable review instruction",
+    notes: [
+      "Labmates can use the guide during writing even before reading every example themselves. Ask the agent to read the actual file and examine the current passage.",
+      "A general assurance that a draft follows the guide does not identify which passages were examined or repaired. Request concrete findings and check whether the changes address them.",
+      "Use this after drafting a section and after substantive changes to its explanation. The author still needs to read the final passage and resolve disputed interpretations or claims.",
+      "The prompt covers all ten pitfalls but does not require ten findings. Keep paragraph-outline comments consistent with any changed message or role.",
+    ],
+    sources: [
+      {
+        label: "VIS Writing Pitfalls",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md",
+      },
+    ],
+  },
+  {
+    id: "revision-editing",
+    section: "Applying the guides",
+    title: "Revise the wording while preserving the argument",
+    shortTitle: "Preserve the argument",
+    subtitle:
+      "Inspect the evidence before changing claim strength or the logic of a passage.",
+    body: {
+      kind: "revision",
+      before:
+        "and this broader exploration yields encoders with lower training loss.",
+      after: "and identify encoders with lower training loss.",
+      meaning:
+        "Remove the causal claim about broader exploration. Retain the supported ability to identify lower-loss choices.",
+      guides: [
+        {
+          label: "Writing Style",
+          href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-style.md",
+          stage: "Draft",
+        },
+        {
+          label: "Writing Pitfalls",
+          href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-writing-pitfalls.md",
+          stage: "Review",
+        },
+        {
+          label: "Editing Pitfalls",
+          href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-editing-pitfalls.md",
+          stage: "Revise",
+        },
+      ],
+    },
+    takeaway:
+      "State the intended argument, check its evidence, and compare meanings after editing.",
+    prompt:
+      "Before editing this revision, read `vis-writing-guidelines/vis-editing-pitfalls.md` and state the passage's intended argument.\nPreserve its comparison dimensions, actors, quantities and denominators, conditions, and supported claim strength, and flag any necessary substantive change with its evidence before applying it.\nAfter editing, compare meanings and check the surrounding paragraphs, related captions, and summaries.",
+    evidence: "VIS4QC revision and accepted source check · 707d5ff",
+    notes: [
+      "Use VIS Editing Pitfalls when polishing an existing manuscript. Preserve the intended argument and its evidence, and make any necessary substantive change explicit.",
+      "This real survey revision removed the claim that broader exploration itself produces better encoders. It retained the supported ability to identify encoders with lower training loss. The initial review had recommended further weakening, but the accepted source recheck retained the metric and utility argument.",
+      "Evidence E1 is VIS4QC commit 707d5fff4442fe01c2c346ae4e93e4e01fe5764a, sections/5-usage-and-purpose.tex, 1 October 2026, plus the accepted XQAI-Eyes decision in review/description-audit-2026-09-30/description-findings.md and the paper-review conversation. The excerpts omit TeX and citations but retain the historical wording.",
+      "The editing checklist: preserve the argument; avoid invented symmetry between findings on different dimensions; retain specific consequences; keep details at the intended level of analysis; explain a figure’s message before measurement details; inspect evidence before changing claim strength; preserve counted entities and denominators; remove filler while retaining consequential qualifications.",
+      "For discussion, E5 is EvoMaestro commit 12fcc4530d3db1fb371c1824ba832a62e5ced48e, 16 July 2026. It changed “All differences are statistically significant” to “Asterisks mark significant differences” and clarified the Performance measure in sections/7-evaluation.tex and sections/appendix-evaluation.tex. This illustrates result scope and measurement terminology.",
+      "For discussion, E7 is VIS4QC commit 57b243bcd5bae3e1777663ed3ff1a690227d1621, 1 October 2026, sections/6-abstraction-levels.tex, with the accepted Qrisp audit decision. It separated Qrisp’s tree diagrams from the description of interactive QML systems. Check which capability a grouped sentence assigns to each citation.",
+      "For discussion, E8 is EvoMaestro commit 0a9617c19937a9ca52f1e577cad12d39323b3aeb, 14 July 2026. It clarified a co-author’s expert-collaboration role across the formative study, abstract, discussion, and other sections. One factual correction can affect several claims.",
+      "For discussion, E9 is VIS4QC commit 4deb29fa903b78ebac868f0540733c5031292a3b, 1 October 2026, sections/2-related-work.tex, plus the accepted audit decision and paper-review discussion. Replacing “advanced” with “in depth” retained the author’s intended assessment of coverage depth. This demonstrates preservation of that assessment, not an independent judgment of the cited paper’s quality.",
+      "Commit diffs establish what changed, not whether AI authored either version. The ContextProv structural revision and survey review stories also have conversation evidence. Survey examples report accepted repository source checks; this talk is not a new independent review of the underlying papers. Use historical commits for exact before-and-after passages because current manuscript text may differ.",
+      "End with three guides: style while drafting, writing pitfalls while reviewing an explanation, and editing pitfalls while revising an existing argument. The links are pinned to local submodule revision a5d1a9681682c8895345c64a4d28ed55d42760f9.",
+    ],
+    sources: [
+      {
+        label: "VIS Editing Pitfalls",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/a5d1a9681682c8895345c64a4d28ed55d42760f9/vis-editing-pitfalls.md",
+      },
+      {
+        label: "VIS4QC revision",
+        href: "https://github.com/ifsheldon/vis4qc-paper/commit/707d5fff4442fe01c2c346ae4e93e4e01fe5764a",
+      },
+    ],
+  },
 ];
