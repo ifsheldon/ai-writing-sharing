@@ -29,6 +29,7 @@ It uses the full available slide area at both ratios and does not include a mobi
 - Use **Open presenter window** for a separate notes window on a second display.
 
 Notes and prompts open over the slide without changing its layout.
+The Next.js development indicator is disabled so it does not cover the presentation controls.
 The presenter window follows the active slide and resynchronizes after either window reloads.
 Slide URLs include a stable fragment such as `#plain-writing`, so reloading or sharing that URL preserves the selected slide.
 The notes connection is shared by presentation windows on the same origin, so use one main deck window per origin when presenting.
