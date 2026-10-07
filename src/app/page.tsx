@@ -89,6 +89,7 @@ export default function Home() {
   useEffect(
     () => () => {
       notesChannelRef.current?.close();
+      notesChannelRef.current = null;
     },
     [],
   );

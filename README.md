@@ -23,6 +23,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Use `ArrowLeft`, `ArrowRight`, `N`, `P`, `Home`, and `End` for keyboard navigation.
 - Speaker notes are hidden by default. Use the notes button to show or hide concise key points for the current slide.
 - Use the Notes window button to open a separate `/speaker-notes` window and keep it synced with the active slide. Move that window to a second display for presenter notes.
+- The notes window resynchronizes with the current slide when either window is reloaded, including during local development.
 - Use the fullscreen button only for the main deck.
 
 ## Editing The Template
