@@ -4,9 +4,14 @@ This is a web-based paper-sharing deck for **Orality: A Semantic Canvas for Exte
 
 ## Getting Started
 
-Run the development server:
+This project starts from [ifsheldon/paper-sharing](https://github.com/ifsheldon/paper-sharing) at commit `3b4e657`.
+Use Bun 1.4.2 and Node.js 20.9 or later.
+Install the locked dependencies, then run the development server:
 
 ```bash
+git clone git@github.com:ifsheldon/ai-writing-sharing.git
+cd ai-writing-sharing
+bun install --frozen-lockfile
 bun dev
 ```
 
@@ -34,9 +39,17 @@ The interactive UI is in `src/app/page.tsx`, and the visual system is in `src/ap
 
 ## Checks
 
+Direct dependencies are pinned to stable releases in `package.json`, with resolved versions in `bun.lock`.
+The stack uses Next.js 16.4, React 19.3, TypeScript 7.0, Tailwind CSS 4.3, Biome 2.5, and the React Compiler.
+The `typecheck` command generates Next.js route types and runs the stable TypeScript 7 compiler.
+Next.js also checks types during production builds.
+
 Use Bun for local commands:
 
 ```bash
 bun run lint
+bun run typecheck
 bun run build
 ```
+
+Use `bun run format` to format project files and `bun run start` to serve a completed production build.

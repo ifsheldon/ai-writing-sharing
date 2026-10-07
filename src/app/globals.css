@@ -1293,7 +1293,8 @@ button {
       135deg,
       color-mix(in srgb, var(--accent) 9%, transparent),
       transparent 46%
-    ), rgba(255, 253, 250, 0.9);
+    ),
+    rgba(255, 253, 250, 0.9);
 }
 
 .paper-figure-shell,
