@@ -1,0 +1,3 @@
+[submodule "vis-writing-guidelines"]
+	path = vis-writing-guidelines
+	url = git@github.com:ifsheldon/vis-writing-guidelines.git

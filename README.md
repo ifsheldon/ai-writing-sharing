@@ -9,7 +9,7 @@ Use Bun 1.4.2 and Node.js 20.9 or later.
 Install the locked dependencies, then run the development server:
 
 ```bash
-git clone git@github.com:ifsheldon/ai-writing-sharing.git
+git clone --recurse-submodules git@github.com:ifsheldon/ai-writing-sharing.git
 cd ai-writing-sharing
 bun install --frozen-lockfile
 bun dev
@@ -37,6 +37,15 @@ The deck content lives in `src/app/deck-data.ts`. Each slide includes:
 Figure assets used by the deck live in `public/figures`.
 
 The interactive UI is in `src/app/page.tsx`, and the visual system is in `src/app/globals.css`.
+
+## Writing Guidelines
+
+The [vis-writing-guidelines](vis-writing-guidelines/) submodule contains shared guidance for research writing.
+For an existing checkout, initialize it with:
+
+```bash
+git submodule update --init --recursive
+```
 
 ## Checks
 
