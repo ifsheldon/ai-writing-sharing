@@ -41,6 +41,7 @@ The interactive UI is in `src/app/page.tsx`, and the visual system is in `src/ap
 ## Writing Guidelines
 
 The [vis-writing-guidelines](vis-writing-guidelines/) submodule contains shared guidance for research writing.
+The [AI writing session outline](talk-outline.md) proposes a 25-minute session for VIS and HCI labmates, covering general suggestions, all ten writing pitfalls with examples, and guidance for revision editing.
 For an existing checkout, initialize it with:
 
 ```bash
