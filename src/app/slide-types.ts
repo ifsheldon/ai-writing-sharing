@@ -53,12 +53,6 @@ export type SlideBody =
       afterLabel?: string;
       annotation?: string;
     }
-  | {
-      kind: "missing";
-      original: string[];
-      summary: string[];
-      explanation: string;
-    }
   | { kind: "sequence"; before: string[]; after: string[]; explanation: string }
   | {
       kind: "repair";

@@ -304,23 +304,30 @@ export const slides: Slide[] = [
   {
     id: "useful-examples",
     section: "Writing pitfalls",
-    title: "Make the example reveal a distinction",
+    title: "Avoid examples that only repeat the claim",
     shortTitle: "Use examples to explain",
     subtitle:
-      "Repeating a general claim with domain nouns leaves the same reasoning gap.",
+      "A useful example shows a concrete case and explains why it matters.",
     pitfall: 3,
     body: {
-      kind: "missing",
-      original: ["Fix the download bug.", "Change only router.py."],
-      summary: ["Fix the download bug."],
-      explanation: "The repair goal survives. The file restriction disappears.",
+      kind: "comparison",
+      beforeLabel: "Repeats the claim",
+      afterLabel: "Explains with a concrete case",
+      before:
+        "Summaries can omit important information. For example, an agent’s summary can leave out important instructions.",
+      after:
+        "A summary can preserve a task’s goal while dropping a constraint. “Fix the download bug. Change only router.py.” becomes “Fix the download bug.” A later agent given only this summary knows what to fix, but is not told to confine edits to router.py.",
+      annotation:
+        "The stronger example identifies the missing restriction and explains what the next agent is no longer told.",
     },
     takeaway:
-      "What distinction becomes visible, and why does it change the interpretation or decision?",
-    evidence: "ContextProv illustrative example · 58f2e4c",
+      "What does the example explain that the general claim alone leaves unclear?",
+    evidence: "Illustrative comparison adapted from ContextProv · 58f2e4c",
     notes: [
-      "A weak example would say: “Summaries can omit important information. For example, an agent’s summary can leave out important instructions.” This repeats the claim without revealing what can be lost.",
-      "ContextProv’s concrete example separates the repair goal from the file restriction. The summary keeps the goal but omits the instruction to change only router.py, explaining why the two should be tracked separately.",
+      "Pitfall 3 concerns explanatory writing: an example may restate a general claim without helping the reader understand it. The slide now compares weak and explanatory writing, rather than presenting summary loss as the writing pitfall itself.",
+      "The weak passage substitutes “important instructions” for “important information” without showing a particular instruction, what happened to it, or why its loss matters.",
+      "The stronger passage introduces the principle, gives the original request and its summary, and explains the consequence. The repair goal survives, but a later agent given only that summary is no longer told which file it may change. It does not claim that an agent actually edited another file.",
+      "The request and summary come from ContextProv’s illustrative example. The surrounding explanatory prose is newly written for this slide, not a manuscript quotation. The manuscript uses the distinction to explain why the goal and instruction should be tracked separately.",
       "The original instruction can remain in recorded history even when absent from a particular model-call input. Do not conflate absence from one input with absence from the execution record.",
       "The manuscript itself labels this example illustrative. It is not an observed execution incident. Evidence E3 is ContextProv commit 58f2e4cd99a6bd41f18a03995c9db07c63a2672b, source/4-problem-modeling.tex, 12 September 2026. Search for “Illustrative download fix” in the manuscript.",
     ],

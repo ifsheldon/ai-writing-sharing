@@ -176,28 +176,28 @@ See E2, commit `591c253`.
 
 ### Slide 8 Pitfall 3 Using examples that repeat the claim instead of explaining it
 
-**Problem:** Saying the same thing with domain nouns does not close a reasoning gap.
+**Problem:** An example can merely restate a general claim without helping readers understand what it means or why it matters.
+Show the weak and explanatory passages together so the writing problem is visible.
 
 **Weak illustrative example:**
 
 > Summaries can omit important information.
 > For example, an agent's summary can leave out important instructions.
 
-**Example used in ContextProv:**
+**More explanatory, adapted from ContextProv:**
 
-```text
-Original request:
-Fix the download bug. Change only router.py.
+> A summary can preserve a task’s goal while dropping a constraint.
+> “Fix the download bug. Change only router.py.” becomes “Fix the download bug.”
+> A later agent given only this summary knows what to fix, but is not told to confine edits to router.py.
 
-Summary supplied to a later model call:
-Fix the download bug.
-```
-
-The repair goal survives, while the file restriction disappears.
-The manuscript uses that distinction to explain why the goal and instruction should be tracked separately.
+The weak passage substitutes “important instructions” for “important information” without showing a concrete case.
+The stronger passage identifies what survives, what is lost, and what the next agent is no longer told.
+This is a lesson about what an example adds to an explanation, rather than a separate pitfall about summarization.
+The original request and summary come from ContextProv’s illustrative example, while the surrounding explanatory prose is newly written for the slide.
+The manuscript uses the distinction to explain why the goal and instruction should be tracked separately.
 The original instruction can remain in recorded history even when it is absent from a particular model-call input.
 
-**Check:** What distinction becomes visible in the example, and why does it change the interpretation or decision?
+**Check:** What does the example explain that the general claim alone leaves unclear?
 
 **Source:** E3, commit `58f2e4c`.
 The paper itself labels this example illustrative, so do not describe it as an observed execution incident.

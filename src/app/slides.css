@@ -449,51 +449,6 @@
   color: var(--accent);
 }
 
-.request-comparison {
-  display: grid;
-  grid-template-columns: 1fr 5cqw 1fr;
-  align-items: center;
-}
-.request-comparison section {
-  padding: 2.6cqh 2cqw;
-  border: 1px solid var(--line);
-  min-height: 25cqh;
-  background: var(--paper-raised);
-}
-.request-arrow {
-  color: var(--accent);
-  margin: auto;
-  width: 1.7cqw;
-}
-.request-lines {
-  margin-top: 2.5cqh;
-  font-family: var(--font-mono), monospace;
-  font-size: clamp(17px, 1.8cqw, 34px);
-  line-height: 1.7;
-}
-.request-lines .instruction-line {
-  color: var(--accent);
-  background: var(--accent-pale);
-  width: fit-content;
-  padding: 0 0.5cqw;
-  margin-left: -0.5cqw;
-}
-.missing-line {
-  display: block;
-  width: fit-content;
-  color: var(--muted);
-  font-size: var(--small-size);
-  font-family: var(--font-sans), sans-serif;
-  border-bottom: 1px dashed #9aa597;
-  margin-top: 1cqh;
-}
-.slide-body .example-insight {
-  margin-top: 3cqh;
-  text-align: center;
-  font-size: var(--body-size);
-  color: var(--green);
-}
-
 .sequence-layout {
   display: grid;
   gap: 3cqh;

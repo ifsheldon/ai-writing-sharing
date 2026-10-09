@@ -278,36 +278,6 @@ function Body({ body }: { body: SlideBody }) {
           ) : null}
         </div>
       );
-    case "missing":
-      return (
-        <div className="missing-layout">
-          <div className="request-comparison">
-            <section>
-              <span className="content-label">Original request</span>
-              <div className="request-lines">
-                {body.original.map((line, index) => (
-                  <p className={index ? "instruction-line" : ""} key={line}>
-                    {line}
-                  </p>
-                ))}
-              </div>
-            </section>
-            <ArrowRight className="request-arrow" aria-hidden="true" />
-            <section>
-              <span className="content-label">
-                Summary for a later model call
-              </span>
-              <div className="request-lines">
-                {body.summary.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-                <span className="missing-line">File restriction omitted</span>
-              </div>
-            </section>
-          </div>
-          <p className="example-insight">{body.explanation}</p>
-        </div>
-      );
     case "sequence":
       return (
         <div className="sequence-layout">
