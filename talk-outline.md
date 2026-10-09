@@ -400,7 +400,11 @@ Pitfall 7 supplies missing context, while this pitfall reorganizes information t
 
 ### Slide 14 Pitfall 9 Replacing explanation with defensive qualifications
 
-**Problem:** A statement about being careful can leave readers unsure what the method actually does.
+**Core idea:** Explain what it does first.
+
+**Problem:** AI sometimes tries to explain a method by saying what it does not do.
+If readers do not yet know what the method does, ruling out one behavior still leaves them without an explanation.
+Describe what it actually does and how it works first, then add qualifications that clarify its scope or limits.
 
 **Illustrative setup:** This system links plotted observations to source rows using a dataset identifier and row index.
 
@@ -408,17 +412,22 @@ Pitfall 7 supplies missing context, while this pitfall reorganizes information t
 
 > The displayed links rely on the available evidence and do not assume that similar observations have the same source.
 
+Highlight “do not assume that similar observations have the same source.” with a red background.
+This clause says which assumption the system avoids, but it does not explain how the links are established.
+Saying that the links rely on available evidence also leaves the actual linking rule unspecified.
+
 **Method explanation:**
 
 > We link each plotted observation to its source row using the dataset identifier and row index.
 
 The repair explains the actual basis for the links.
+The dataset identifier identifies the source dataset, and the row index identifies the observation within it.
 It uses the stated method fact, which cannot be inferred from the vague sentence alone.
-If a condition changes what can be concluded, state its consequence explicitly.
-For example, unavailable observation durations prevent computing rates even when event counts are known.
+Once readers understand the method, a qualification can clarify its scope or limits.
+Keep uncertainty and limitations that affect what the evidence supports, and explain their consequences.
+The point is to establish what the method does before qualifying it.
 
-**Check:** What concrete method, condition, or consequence does the qualification need to explain?
-Preserve uncertainty that affects the conclusion.
+**Check:** Have you explained what it does before saying what it does not do?
 
 **Guide:** Pitfall 9.
 

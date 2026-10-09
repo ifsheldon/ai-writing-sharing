@@ -561,30 +561,36 @@ export const slides: Slide[] = [
   {
     id: "explain-qualifications",
     section: "Writing pitfalls",
-    title: "Explain the method behind the qualification",
-    shortTitle: "Explain the qualification",
+    title: "Explain what it does first",
+    shortTitle: "Explain what it does",
     subtitle:
-      "Saying that a method is careful does not explain what it actually does.",
+      "AI sometimes tries to explain a method by saying what it does not do. If readers do not yet know what the method does, ruling out one behavior still leaves them without an explanation. Describe what it actually does and how it works first, then add qualifications that clarify its scope or limits.",
     pitfall: 9,
     body: {
       kind: "comparison",
       beforeLabel: "Vague qualification",
       afterLabel: "Method explanation",
-      before:
-        "The displayed links rely on the available evidence and do not assume that similar observations have the same source.",
+      before: {
+        lead: "The displayed links rely on the available evidence and ",
+        emphasis:
+          "do not assume that similar observations have the same source.",
+        tail: "",
+      },
       after:
         "We link each plotted observation to its source row using the dataset identifier and row index.",
       annotation:
         "This illustrative system uses a dataset identifier and row index to establish each link.",
     },
     takeaway:
-      "Explain the concrete method, condition, or consequence that readers need.",
+      "Have you explained what it does before saying what it does not do?",
     evidence: "Illustrative example · Writing pitfall 9",
     notes: [
+      "The core problem is treating a negative statement as an explanation. AI may say that a method does not do something before explaining what it does. Ruling out one behavior does not supply the account of the method that readers need.",
       "The setup matters: this illustrative system links plotted observations to source rows using a dataset identifier and row index. That fact supports the method explanation and cannot be inferred from the vague sentence alone.",
-      "The repair explains the actual basis for the links. A claim about respecting evidence can sound careful while leaving the underlying action unspecified.",
-      "Preserve uncertainty that affects the conclusion. If a condition changes what can be concluded, explain its consequence. Unavailable observation durations prevent computing rates even when event counts are known.",
-      "This pitfall concerns a missing explanation behind a defensive qualification. The next concerns a qualification that is specific but answers a different question from the paragraph.",
+      "The clause highlighted in red says which assumption the system avoids. Readers still do not know how the system establishes each link. Saying that the links rely on available evidence also leaves the actual linking rule unspecified.",
+      "The repair supplies the missing linking rule: the dataset identifier identifies the source dataset, and the row index identifies the observation within it. The qualification may be accurate, but it cannot replace this explanation.",
+      "Once readers understand the method, a qualification can clarify its scope or limits. Keep uncertainty and limitations that affect what the evidence supports, and explain their consequences. The point is to establish what the method does before qualifying it.",
+      "This pitfall concerns a qualification used in place of a missing explanation. The next concerns a qualification that is specific but answers a different question from the paragraph.",
     ],
     sources: [
       {
