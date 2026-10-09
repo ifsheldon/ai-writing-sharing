@@ -26,6 +26,9 @@ export type SlidePoint = { title: string; text: string };
 export type SlideSource = { label: string; href: string };
 export type SlideTakeaway = string | { lead: string; link: SlideSource };
 export type ComparisonPair = { before: string; after: string };
+export type ComparisonText =
+  | string
+  | { lead: string; emphasis: string; tail: string };
 
 export type SlideBody =
   | { kind: "source"; lines: string[]; points: SlidePoint[] }
@@ -47,8 +50,8 @@ export type SlideBody =
     }
   | {
       kind: "comparison";
-      before: string;
-      after: string;
+      before: ComparisonText;
+      after: ComparisonText;
       beforeLabel?: string;
       afterLabel?: string;
       annotation?: string;

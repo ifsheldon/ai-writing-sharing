@@ -375,6 +375,14 @@
 .comparison-before p {
   color: #626a61;
 }
+.weak-transition {
+  color: #b3322b;
+  font-weight: 650;
+}
+.logical-connection {
+  background: #acd2f4;
+  color: inherit;
+}
 .comparison-after .content-label {
   color: var(--green);
 }

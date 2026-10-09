@@ -6,7 +6,12 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { TakeawayContent } from "./slide-takeaway";
-import type { Slide, SlideBody, SlidePoint } from "./slide-types";
+import type {
+  ComparisonText,
+  Slide,
+  SlideBody,
+  SlidePoint,
+} from "./slide-types";
 
 export function SlideContent({
   slide,
@@ -81,8 +86,8 @@ function Comparison({
   beforeLabel = "Before",
   afterLabel = "After",
 }: {
-  before: string;
-  after: string;
+  before: ComparisonText;
+  after: ComparisonText;
   beforeLabel?: string;
   afterLabel?: string;
 }) {
@@ -90,14 +95,34 @@ function Comparison({
     <div className="comparison">
       <section className="comparison-before">
         <span className="content-label">{beforeLabel}</span>
-        <p>{before}</p>
+        <p>
+          {typeof before === "string" ? (
+            before
+          ) : (
+            <>
+              {before.lead}
+              <strong className="weak-transition">{before.emphasis}</strong>
+              {before.tail}
+            </>
+          )}
+        </p>
       </section>
       <div className="comparison-arrow">
         <ArrowRight aria-hidden="true" />
       </div>
       <section className="comparison-after">
         <span className="content-label">{afterLabel}</span>
-        <p>{after}</p>
+        <p>
+          {typeof after === "string" ? (
+            after
+          ) : (
+            <>
+              {after.lead}
+              <mark className="logical-connection">{after.emphasis}</mark>
+              {after.tail}
+            </>
+          )}
+        </p>
       </section>
     </div>
   );

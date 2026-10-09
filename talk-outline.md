@@ -205,20 +205,31 @@ The paper itself labels this example illustrative, so do not describe it as an o
 
 ### Slide 9 Pitfall 4 Adding connecting words where the logical relationship is missing
 
-**Problem:** “Then” shows sequence, while “therefore” claims a consequence, but neither supplies the missing reason.
+**Core idea:** Transitions should explain how ideas connect.
+A word such as “then” can make sentences sound connected while leaving their logical relationship unstated.
+Explain why the next idea follows.
+A limitation may motivate another view, or one step may produce information needed by the next.
 
 **Illustrative weak explanation:**
 
-> Analysts assign interview excerpts to categories.
-> An independent reviewer then checks the assignments.
+> The overview shows each team’s average task completion time.
+> We **then** provide a view of individual completion times.
+
+Highlight “then” in red on the slide.
+The word announces another view but does not explain why readers need it.
 
 **More explanatory:**
 
-> Category assignments determine which themes appear common.
-> A reviewer checks the assignments against the original excerpts because misclassification could change those conclusions.
+> The overview shows each team’s average task completion time.
+> The same average can come from similar completion times or a mix of fast and slow ones.
+> To distinguish these cases, users can inspect individual completion times for a selected team.
 
-The order of activities stays the same.
-The revision explains why the review matters for the interpretation.
+Use a light blue background to highlight the logical connection from “The same average” through “To distinguish these cases”, with the comma outside the highlight.
+Both versions retain the overview and the individual-time view.
+The revision makes their logical relationship explicit: the limitation of the average motivates inspecting the individual values.
+This is an illustrative visualization system, not an observed study result.
+The problem is the missing explanation, not the word “then” itself.
+If the relationship is already clear, a short connecting word may be enough.
 
 **Check:** Before adding a connector, state the relationship between the ideas in plain language.
 For example, one step produces the information required by the next, or an interpretive decision creates a need for review.

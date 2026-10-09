@@ -341,29 +341,38 @@ export const slides: Slide[] = [
   {
     id: "logical-links",
     section: "Writing pitfalls",
-    title: "Give the transition a reason to exist",
+    title: "Transitions should explain how ideas connect",
     shortTitle: "Explain the logical link",
     subtitle:
-      "“Then” marks sequence. It does not explain why the next step matters.",
+      "A word such as “then” can make sentences sound connected while leaving their logical relationship unstated. Explain why the next idea follows. A limitation may motivate another view, or one step may produce information needed by the next.",
     pitfall: 4,
     body: {
       kind: "comparison",
-      beforeLabel: "Sequence alone",
-      afterLabel: "Reason for the review",
-      before:
-        "Analysts assign interview excerpts to categories. An independent reviewer then checks the assignments.",
-      after:
-        "Category assignments determine which themes appear common. A reviewer checks the assignments against the original excerpts because misclassification could change those conclusions.",
+      beforeLabel: "Only a connecting word",
+      afterLabel: "A reason for the next view",
+      before: {
+        lead: "The overview shows each team’s average task completion time. We ",
+        emphasis: "then",
+        tail: " provide a view of individual completion times.",
+      },
+      after: {
+        lead: "The overview shows each team’s average task completion time. ",
+        emphasis:
+          "The same average can come from similar completion times or a mix of fast and slow ones. To distinguish these cases",
+        tail: ", users can inspect individual completion times for a selected team.",
+      },
       annotation:
-        "Interpretive decisions affect the conclusions, creating a reason to check them.",
+        "The limitation of the average gives readers a reason to inspect the individual values.",
     },
     takeaway:
       "State the relationship between the ideas before choosing a connecting word.",
     evidence: "Illustrative example · Writing pitfall 4",
     notes: [
-      "“Then” shows sequence and “therefore” claims a consequence, but neither supplies a missing reason. A new actor can still appear without a clear purpose.",
-      "The order of activities stays the same here. The revision explains why reviewing category assignments matters for interpreting which themes appear common.",
-      "Before adding a connector, state the relationship in plain language. One step may produce the information needed by the next, or an interpretive decision may create a need for review.",
+      "Transitions should carry logical connections between ideas. Connecting words can make sentences sound fluent without explaining why the next idea belongs. A limitation may motivate a method, a decision may create a need for checking, or one step may produce the information required by the next.",
+      "In the weak example, “then” announces another view but leaves its purpose unexplained. The reader sees the sequence, yet must supply the reason for moving from team averages to individual completion times.",
+      "The stronger passage supplies that reason: the same average can arise from different patterns of individual times. Inspecting the individual values lets users distinguish similar times from a mix of fast and slow ones. The limitation of the overview motivates the second view.",
+      "This is an illustrative visualization system, not a report of measured system performance or study findings. Both versions retain the overview and individual-time view; the stronger version adds their missing logical relationship.",
+      "The highlighted word is not inherently wrong. “Then” can express a useful sequence when that is the intended relationship. Replacing it with “therefore” would not fix a missing explanation. Establish the relationship, then choose a connector that fits it.",
       "Keep this distinct from the next pitfall: here a relationship is missing, while the next example contains the necessary ideas in an unhelpful order.",
     ],
     sources: [
