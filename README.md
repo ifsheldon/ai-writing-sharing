@@ -55,7 +55,7 @@ The final slide links to the three writing guides at the submodule revision used
 Keep the slide content aligned with [talk-outline.md](talk-outline.md).
 On writing-pitfall slides, use red for negative example titles and blue for positive example titles.
 Apply these colors only to the example titles, leaving body text and panel backgrounds in the existing palette.
-Keep neutral context labels neutral and preserve the specific inline highlights in Pitfall 4.
+Keep neutral context labels neutral and preserve the specific inline highlights in Pitfalls 4 and 6.
 After changing a layout or adding text, inspect all affected slides at both aspect ratios for clipping, overlap, and reading order.
 Preserve the distinction between illustrative examples and historical manuscript revisions.
 

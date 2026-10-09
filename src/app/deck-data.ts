@@ -430,34 +430,39 @@ export const slides: Slide[] = [
   {
     id: "structural-repair",
     section: "Writing pitfalls",
-    title: "Check that the promised repair actually happened",
-    shortTitle: "Verify the structural repair",
+    title: "Check that the edit implements the proposed fix",
+    shortTitle: "Verify the actual edit",
     subtitle:
-      "A correct diagnosis can still produce an edit that changes only a phrase.",
+      "Finding the problem and proposing the right fix are not enough. Compare the actual revision with the proposed fix and check whether the original problem has been resolved. A wording change can leave the underlying problem untouched.",
     pitfall: 6,
     body: {
       kind: "repair",
-      promise: "I will clarify the conceptual structure.",
-      before: ["Evaluation procedure", "Issue definition introduced later"],
-      after: [
-        "Define an issue",
-        "Introduce an evaluation result",
-        "Explain its verdict",
-        "Identify supporting evidence",
-        "Explain what developers can assess",
-      ],
+      problem: "The comparison interrupts the definition of failure.",
+      plan: "Put both failure criteria before the comparison.",
+      original:
+        "Runs with incorrect answers count as failures. We compare failure rates between two agents. Runs with no answer also count as failures.",
+      before: {
+        lead: "Runs with incorrect answers count as failures. We ",
+        emphasis: "assess",
+        tail: " failure rates between two agents. Runs with no answer also count as failures.",
+      },
+      after:
+        "Runs with incorrect answers count as failures. Runs with no answer also count as failures. We assess failure rates between two agents.",
       caption:
-        "“Changing individual verbs has not resolved that structural problem.”",
+        "The highlighted verb changes the wording. It does not move the second failure criterion as proposed.",
     },
     takeaway:
-      "Point to the sentence or paragraph that now supplies each promised explanation.",
-    evidence: "ContextProv revision and conversation · 813a4f7",
+      "For each proposed fix, point to the change that resolves the original problem.",
+    evidence: "Illustrative continuation of Pitfall 5 · Writing pitfall 6",
     notes: [
-      "This real ContextProv subsection needed to define an issue and explain an evaluation result. It began with evaluation procedure and introduced the issue definition later. Changing individual verbs did not resolve the mismatch.",
-      "The agent acknowledged in the writing conversation: “Changing individual verbs has not resolved that structural problem.” The promise shown above is illustrative, not a historical quotation.",
-      "The eventual revision defined an issue, introduced an evaluation result, explained its verdict, identified supporting evidence, and explained what developers could assess. This summarizes several exchanges, not a manuscript quotation or a claim that one prompt produced the revision.",
-      "The final text retained an unknown verdict to represent uncertainty. A structural repair must not erase uncertainty merely to make the account sound cleaner.",
-      "For every promised repair, point to the passage that supplies the missing explanation. Read the final text without relying on the agent’s account of what it intended to do.",
+      "A correct diagnosis and a suitable proposed fix are not proof that the edit carried out the fix. Compare the actual revised passage with the intended change and check whether it resolves the original problem.",
+      "This slide continues the illustrative example from Pitfall 5. We already know the problem: the passage compares failure rates before finishing the failure definition. The proposed fix is to put both criteria before that comparison.",
+      "The original passage is shown in full above the revisions. The failed revision changes “compare” to the highlighted “assess” but leaves the comparison between the two failure criteria. The highlighted word shows the edit, while the failure is that the edit leaves the diagnosed ordering problem unresolved.",
+      "The successful revision retains the same statements but moves the no-answer criterion before the comparison. Readers now receive the full definition first. The original problem, the proposed fix, and the resulting edit line up.",
+      "These are illustrative edits for teaching, not a historical agent transcript or measured evaluation result. The distinction from Pitfall 5 is the revision check: Pitfall 5 identifies the ordering problem, while Pitfall 6 checks whether an attempted repair actually resolves it.",
+      "The same check applies to other repairs. If the plan promises a reason, find that reason in the final prose. If it promises a useful example, read what the example establishes. Read the passage without relying on the agent’s description of its intentions.",
+      "An optional historical example is the ContextProv subsection that needed to define an issue and explain an evaluation result. It began with evaluation procedure and introduced the issue definition later. The agent acknowledged: “Changing individual verbs has not resolved that structural problem.”",
+      "The eventual ContextProv revision defined an issue, introduced an evaluation result, explained its verdict, identified supporting evidence, and explained what developers could assess. This summarizes several exchanges, not a manuscript quotation or a claim that one prompt produced the revision. The final text retained an unknown verdict to represent uncertainty.",
       "Evidence E4 is ContextProv commit 813a4f7ef2c2dd84460dd788fe425c6c9eb640bd, source/4-problem-modeling.tex, 9 September 2026, plus the paper-writing conversation. The acknowledgment follows the whole-subsection review request in turn 01a085fc-6e2c-7590-8316-991dba425133. The later transitions comment is in turn 01a08612-726e-7113-8bf2-e57fafb48b86.",
     ],
     sources: [

@@ -87,9 +87,11 @@ export type SlideBody =
     }
   | {
       kind: "repair";
-      promise: string;
-      before: string[];
-      after: string[];
+      problem: string;
+      plan: string;
+      original: string;
+      before: ComparisonText;
+      after: string;
       caption: string;
     }
   | { kind: "distinctions"; sentence: string; cases: SlidePoint[] }

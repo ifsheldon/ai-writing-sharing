@@ -274,9 +274,46 @@ See E6, commit `45e8872`.
 
 ### Slide 11 Pitfall 6 Proposing a structural repair but implementing only a wording change
 
-**Problem:** The agent can diagnose the problem correctly and still fail to implement its own proposed repair.
+**Core idea:** Check that the edit implements the proposed fix.
+Finding the problem and proposing the right fix are not enough.
+Compare the actual revision with the proposed fix and check whether the original problem has been resolved.
+A wording change can leave the underlying problem untouched.
 
-**Real ContextProv revision:**
+**Illustrative continuation of Pitfall 5:**
+
+- **The problem:** The comparison interrupts the definition of failure.
+- **The proposed fix:** Put both failure criteria before the comparison.
+
+**Original text:**
+
+> Runs with incorrect answers count as failures.
+> We compare failure rates between two agents.
+> Runs with no answer also count as failures.
+
+**Only the wording changed:**
+
+> Runs with incorrect answers count as failures.
+> We **assess** failure rates between two agents.
+> Runs with no answer also count as failures.
+
+Highlight “assess” in red on a pale red background to identify the wording-only edit.
+
+**The proposed fix is implemented:**
+
+> Runs with incorrect answers count as failures.
+> Runs with no answer also count as failures.
+> We assess failure rates between two agents.
+
+The failed edit changes “compare” to “assess” but leaves the order unchanged.
+The word “assess” is not itself an error; the edit fails because it does not implement the proposed reordering.
+The successful edit moves the no-answer criterion before the comparison, as proposed.
+Pitfall 5 identifies the ordering problem, while Pitfall 6 checks whether an attempted repair actually resolves it.
+These are illustrative edits, not a historical agent transcript or measured evaluation result.
+
+**Check:** For each proposed fix, point to the change that resolves the original problem.
+Read the final passage without the agent's explanation of what it intended to do.
+
+**Optional historical example from ContextProv:**
 
 The subsection needed to define an issue and explain an evaluation result.
 Its earlier version began with evaluation procedure and introduced the issue definition later.
@@ -289,13 +326,9 @@ The eventual revision followed this progression:
 
 > Define an issue → introduce an evaluation result → explain its verdict → identify supporting evidence → explain what developers can assess.
 
-Show the difference between a promise such as “I will clarify the conceptual structure” and a visible change in paragraph roles.
 The final text still represents uncertainty through an `unknown` verdict.
 
-**Check:** For every promised repair, point to the sentence or paragraph that now provides the missing explanation.
-Read the final passage without the agent's explanation of what it intended to do.
-
-**Source:** E4, commit `813a4f7`, and the writing conversation.
+**Source for the historical example:** E4, commit `813a4f7`, and the writing conversation.
 The sequence above summarizes the revision after several exchanges, rather than quoting the manuscript or implying that one prompt produced it.
 **Guide:** Pitfall 6.
 

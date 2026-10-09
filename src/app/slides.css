@@ -378,7 +378,7 @@
 .comparison-before p {
   color: #626a61;
 }
-.weak-transition {
+.comparison-word-emphasis {
   color: #b3322b;
   font-weight: 650;
 }
@@ -509,42 +509,33 @@
 }
 .repair-layout {
   display: grid;
-  grid-template-columns: 0.85fr 2fr;
+  gap: 2.4cqh;
+}
+.repair-context {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 4cqw;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.8cqh;
 }
-.repair-promise {
-  padding-right: 3cqw;
-  border-right: 1px solid var(--line);
-}
-.repair-promise blockquote {
-  font-family: Georgia, "Times New Roman", serif;
-  margin: 2.2cqh 0 0;
-  font-size: clamp(23px, 2.45cqw, 47px);
-  line-height: 1.3;
-  letter-spacing: -0.025em;
-}
-.structure-before {
-  margin-bottom: 2.8cqh;
-}
-.structure-before p {
-  margin-top: 1.2cqh;
+.repair-context p {
+  margin-top: 0.8cqh;
   font-size: var(--small-size);
   line-height: 1.4;
-  color: var(--muted);
 }
-:where(.repair-structure) .sequence li {
-  padding: 1.8cqh 1cqw;
-  font-size: clamp(15px, 1.3cqw, 25px);
+.repair-original p {
+  margin-top: 0.8cqh;
+  font-size: var(--small-size);
+  line-height: 1.4;
 }
-:where(.repair-structure) .sequence li:where(:not(:first-child)) {
-  margin-left: 1.2cqw;
+.repair-layout .comparison-word-emphasis {
+  background: #f6d6d1;
 }
-.repair-structure .sequence-arrow {
-  width: 0.9cqw;
-  right: -1.06cqw;
+:where(.repair-layout) .comparison section {
+  padding: 2cqh 1.6cqw;
 }
-.repair-structure .annotation {
-  font-size: clamp(13px, 1.1cqw, 21px);
+.repair-layout > .annotation {
+  padding-top: 0;
 }
 
 .distinctions-layout {

@@ -105,7 +105,9 @@ function Comparison({
           ) : (
             <>
               {before.lead}
-              <strong className="weak-transition">{before.emphasis}</strong>
+              <strong className="comparison-word-emphasis">
+                {before.emphasis}
+              </strong>
               {before.tail}
             </>
           )}
@@ -333,25 +335,27 @@ function Body({ body }: { body: SlideBody }) {
     case "repair":
       return (
         <div className="repair-layout">
-          <div className="repair-promise">
-            <span className="content-label">Illustrative promise</span>
-            <blockquote>{body.promise}</blockquote>
+          <div className="repair-context">
+            <section>
+              <span className="content-label">The problem</span>
+              <p>{body.problem}</p>
+            </section>
+            <section>
+              <span className="content-label">The proposed fix</span>
+              <p>{body.plan}</p>
+            </section>
           </div>
-          <div className="repair-structure">
-            <div className="structure-before">
-              <span className="content-label example-title-negative">
-                Earlier structure
-              </span>
-              <p>{body.before.join(" → ")}</p>
-            </div>
-            <div className="structure-after">
-              <span className="content-label example-title-positive">
-                Visible in the revised text
-              </span>
-              <Sequence items={body.after} corrected />
-            </div>
-            <p className="annotation">{body.caption}</p>
-          </div>
+          <section className="repair-original">
+            <span className="content-label">Original text</span>
+            <p>{body.original}</p>
+          </section>
+          <Comparison
+            before={body.before}
+            after={body.after}
+            beforeLabel="Only the wording changed"
+            afterLabel="The proposed fix is implemented"
+          />
+          <p className="annotation">{body.caption}</p>
         </div>
       );
     case "distinctions":
