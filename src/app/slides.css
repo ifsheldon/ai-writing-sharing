@@ -75,8 +75,11 @@
   letter-spacing: 0.11em;
   color: var(--muted);
 }
-.accent-label {
-  color: var(--green);
+.slide[data-pitfall] .example-title-negative {
+  color: #b3322b;
+}
+.slide[data-pitfall] .example-title-positive {
+  color: #245e9b;
 }
 .slide-footer {
   display: flex;

@@ -26,6 +26,7 @@ export function SlideContent({
   return (
     <article
       className={`slide slide-${slide.body.kind}`}
+      data-pitfall={slide.pitfall}
       aria-label={`Slide ${index + 1} of ${total}`}
     >
       <header className="slide-heading">
@@ -95,7 +96,9 @@ function Comparison({
   return (
     <div className="comparison">
       <section className="comparison-before">
-        <span className="content-label">{beforeLabel}</span>
+        <span className="content-label example-title-negative">
+          {beforeLabel}
+        </span>
         <p>
           {typeof before === "string" ? (
             before
@@ -112,7 +115,9 @@ function Comparison({
         <ArrowRight aria-hidden="true" />
       </div>
       <section className="comparison-after">
-        <span className="content-label">{afterLabel}</span>
+        <span className="content-label example-title-positive">
+          {afterLabel}
+        </span>
         <p>
           {typeof after === "string" ? (
             after
@@ -285,7 +290,9 @@ function Body({ body }: { body: SlideBody }) {
             </div>
           </section>
           <section className="paragraph-next">
-            <span className="content-label">Paragraph 2 still begins</span>
+            <span className="content-label example-title-negative">
+              Paragraph 2 still begins
+            </span>
             <blockquote>{body.next}</blockquote>
             <p className="annotation">{body.explanation}</p>
           </section>
@@ -309,11 +316,13 @@ function Body({ body }: { body: SlideBody }) {
       return (
         <div className="sequence-layout">
           <section>
-            <span className="content-label">{body.beforeLabel}</span>
+            <span className="content-label example-title-negative">
+              {body.beforeLabel}
+            </span>
             <Sequence items={body.before} />
           </section>
           <section>
-            <span className="content-label accent-label">
+            <span className="content-label example-title-positive">
               {body.afterLabel}
             </span>
             <Sequence items={body.after} corrected />
@@ -330,11 +339,13 @@ function Body({ body }: { body: SlideBody }) {
           </div>
           <div className="repair-structure">
             <div className="structure-before">
-              <span className="content-label">Earlier structure</span>
+              <span className="content-label example-title-negative">
+                Earlier structure
+              </span>
               <p>{body.before.join(" → ")}</p>
             </div>
             <div className="structure-after">
-              <span className="content-label accent-label">
+              <span className="content-label example-title-positive">
                 Visible in the revised text
               </span>
               <Sequence items={body.after} corrected />
@@ -347,14 +358,16 @@ function Body({ body }: { body: SlideBody }) {
       return (
         <div className="distinctions-layout">
           <div className="dense-sentence">
-            <span className="content-label">One sentence, two conditions</span>
+            <span className="content-label example-title-negative">
+              One sentence, two conditions
+            </span>
             <p>{body.sentence}</p>
           </div>
           <div className="distinct-cases">
             {body.cases.map((point, index) => (
               <section key={point.title}>
                 <span className="case-number">Case {index + 1}</span>
-                <h2>{point.title}</h2>
+                <h2 className="example-title-positive">{point.title}</h2>
                 <p>{point.text}</p>
               </section>
             ))}
