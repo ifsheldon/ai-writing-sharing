@@ -43,7 +43,6 @@ export function SlideContent({
           <span>{slide.pitfall ? "The check" : "In practice"}</span>
           <p>{slide.takeaway}</p>
         </div>
-        <span className="evidence-label">{slide.evidence}</span>
       </footer>
     </article>
   );

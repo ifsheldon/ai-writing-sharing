@@ -187,7 +187,6 @@ export default function Home() {
         >
           <LayoutGrid size={18} aria-hidden="true" />
         </button>
-        <span className="toolbar-section">{activeSlide.section}</span>
         <div className="toolbar-actions">
           {activeSlide.prompt ? (
             <button
