@@ -334,21 +334,35 @@ The sequence above summarizes the revision after several exchanges, rather than 
 
 ### Slide 12 Pitfall 7 Assuming the reader shares the authors' conversational context
 
-**Problem:** Shorthand understood by the author and agent can omit premises needed by a reader.
-Removing jargon alone may leave the same gap.
+**Core idea:** Supply the context your reader is missing.
+The author and AI may omit details they both know from their discussion.
+Paper readers do not share that conversation, so the text must supply the context needed to understand the method.
 
-**Too generic:**
+**Known in the writing conversation, in this hypothetical user study:**
 
-> A filter receives data and produces a subset.
+> Participants find the city with the largest population in a bar chart.
+> Performance means the time taken to answer.
 
-**More informative, in this illustrative system:**
+**Plain wording, missing context:**
 
-> The filter selects observations whose recorded timestamps fall within the interval chosen by the analyst.
+> Participants completed the task, and we recorded their performance.
 
-The reader now knows who chooses the interval, which information is examined, and the selection rule.
-Plain writing still needs the specific information that makes an explanation useful.
+**Shared context made explicit:**
 
-**Check:** What actors, objects, and assumptions does an unfamiliar reader need before the next sentence will make sense?
+> Participants used a bar chart to identify the city with the largest population.
+> We measured how long they took to answer.
+
+The author and AI know what “the task” and “performance” mean.
+An unfamiliar reader cannot tell what participants did or whether performance refers to speed, accuracy, or another measure.
+The revision carries the task and its timing measure into the paper.
+This example assumes those details have not already been established in the manuscript.
+Once they have been explained, a short reference to the task can be sufficient.
+This pair does not show jargon being removed.
+It shows that plain wording can still omit essential context.
+This is a hypothetical user study, not a report of an actual experiment or result.
+In a real paper, use the actual task instructions and measures from the study materials rather than inventing plausible details.
+
+**Check:** What must the paper explain to someone who did not take part in the conversation?
 
 **Guide:** Pitfall 7.
 

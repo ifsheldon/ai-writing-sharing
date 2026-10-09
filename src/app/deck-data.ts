@@ -478,25 +478,33 @@ export const slides: Slide[] = [
     title: "Supply the context your reader is missing",
     shortTitle: "Supply the missing context",
     subtitle:
-      "Removing jargon alone can leave the same gap in the explanation.",
+      "The author and AI may omit details they both know from their discussion. Paper readers do not share that conversation, so the text must supply the context needed to understand the method.",
     pitfall: 7,
     body: {
       kind: "comparison",
-      beforeLabel: "Too generic",
-      afterLabel: "Enough context",
-      before: "A filter receives data and produces a subset.",
+      context: {
+        title: "Known in the writing conversation",
+        text: "Participants find the city with the largest population in a bar chart. Performance means the time taken to answer.",
+      },
+      beforeLabel: "Plain wording, missing context",
+      afterLabel: "Shared context made explicit",
+      before:
+        "Participants completed the task, and we recorded their performance.",
       after:
-        "The filter selects observations whose recorded timestamps fall within the interval chosen by the analyst.",
+        "Participants used a bar chart to identify the city with the largest population. We measured how long they took to answer.",
       annotation:
-        "Name who chooses the interval, what is examined, and the selection rule.",
+        "The author and AI know what “the task” and “performance” mean. The paper must give readers that information.",
     },
     takeaway:
-      "What actors, objects, and assumptions does an unfamiliar reader need next?",
-    evidence: "Illustrative example · Writing pitfall 7",
+      "What must the paper explain to someone who did not take part in the conversation?",
+    evidence: "Illustrative user-study example · Writing pitfall 7",
     notes: [
-      "An explanation may work in conversation because the author and agent already know the actors, domain, and preceding decisions. The paper must supply those premises for a reader.",
-      "The generic filter sentence contains little jargon but still explains very little. The more informative version identifies the analyst, recorded timestamps, and the chosen interval that determines selection.",
-      "This is an illustrative system. Plain writing must retain the specific information that makes the explanation useful. Replacing specialist nouns with generic ones is not enough.",
+      "Pitfall 7 concerns shared conversational context. The author and AI may already know the relevant actors, information, and decisions, but a paper reader needs those details to be established in the manuscript.",
+      "The context strip makes the shared knowledge explicit: participants identify the city with the largest population in a bar chart, and performance means the time taken to answer. Those are facts of this hypothetical user study, not details inferred from the generic sentence.",
+      "The weak sentence leaves both the task and its measure unstated. The author and AI may know what they discussed, but an unfamiliar reader cannot tell what participants did or whether performance refers to speed, accuracy, or another measure.",
+      "The revision carries the shared context into the paper by specifying the chart-reading task and the time measurement. This example assumes those details have not already been established in the manuscript. Once they have been explained, a short reference to the task can be sufficient.",
+      "The weak sentence is already plain. This pair does not show jargon being removed. It shows why plain wording alone is insufficient when essential context is missing. Removing jargon is useful only if the explanation retains the domain information the reader needs.",
+      "This is an illustrative user study, not a report of an actual experiment or result. In a real paper, use the actual task instructions and measures from the study materials rather than inventing plausible details.",
     ],
     sources: [
       {

@@ -71,6 +71,7 @@ export type SlideBody =
     }
   | {
       kind: "comparison";
+      context?: SlidePoint;
       before: ComparisonText;
       after: ComparisonText;
       beforeLabel?: string;

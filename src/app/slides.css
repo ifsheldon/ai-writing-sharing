@@ -407,6 +407,16 @@
 .comparison-layout > .annotation {
   max-width: 80cqw;
 }
+.comparison-context {
+  margin-bottom: 2.4cqh;
+  padding-bottom: 1.8cqh;
+  border-bottom: 1px solid var(--line);
+}
+.comparison-context p {
+  margin-top: 0.8cqh;
+  font-size: var(--small-size);
+  line-height: 1.4;
+}
 
 .handoff-layout {
   display: grid;

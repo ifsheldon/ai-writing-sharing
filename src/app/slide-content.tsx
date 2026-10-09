@@ -303,6 +303,12 @@ function Body({ body }: { body: SlideBody }) {
     case "comparison":
       return (
         <div className="comparison-layout">
+          {body.context ? (
+            <section className="comparison-context">
+              <span className="content-label">{body.context.title}</span>
+              <p>{body.context.text}</p>
+            </section>
+          ) : null}
           <Comparison
             before={body.before}
             after={body.after}
