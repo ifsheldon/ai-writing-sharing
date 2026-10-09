@@ -465,6 +465,24 @@ Use these historical versions when preparing exact before-and-after slides, sinc
 
 ## Guideline references
 
+## Complementary section: Beyond Writing Assistance: Using AI Critically in Research Writing
+
+Append six slides after the original 17; allow approximately 6–9 additional minutes.
+The full text, prompts, notes, and reference URLs are in `src/app/research-slides.ts`.
+
+1. Challenge the research argument before polishing prose: motivation, gap, approach, and contributions.
+2. Compare papers to build a synthesis: use common dimensions and verify every comparison against source passages.
+3. Check scientific claims against measured outcomes: retain statistical meaning, quantities, and study scope.
+4. Review through distinct research perspectives: ground criticisms and let the researcher validate them.
+5. Verify citations: check both publication existence and support for the specific claim.
+6. Keep a human-led workflow: researchers define, validate, verify, and finalize scientific decisions.
+
+The comparison matrix and evaluation rewrite are hypothetical teaching examples.
+The OpenScholar paper is a published research reference, and the citation resources include both a news feature and an empirical study.
+Publication-policy notes are dated October 2026; recheck the target venue before submission.
+
+## Original guideline links
+
 - [VIS Writing Guide](vis-writing-guidelines/vis-writing-guideline.md)
 - [VIS Writing Style](vis-writing-guidelines/vis-writing-style.md)
 - [VIS Writing Pitfalls](vis-writing-guidelines/vis-writing-pitfalls.md)

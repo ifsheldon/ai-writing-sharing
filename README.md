@@ -1,7 +1,8 @@
 # AI × Research Writing
 
-A 17-slide web presentation about writing and revising research papers with AI, designed for a 25-minute sharing session with visualization and HCI labmates.
+A 23-slide web presentation about writing and revising research papers with AI for visualization and HCI labmates.
 The deck follows the approved [talk outline](talk-outline.md): five general suggestions, all ten writing pitfalls in guide order, and two slides on draft review and revision editing.
+Six complementary slides follow in **Beyond Writing Assistance: Using AI Critically in Research Writing**, covering argument critique, literature synthesis, scientific claims, reviewer perspectives, citation verification, and a human-led workflow. Allow about 6–9 additional minutes for this section.
 
 ## Getting started
 
@@ -29,6 +30,7 @@ The current section appears above the slide title.
 - Press `Escape` to close a dialog.
 - Open **Prompt** on slides 1–5, 16, and 17 to read and copy the complete instruction.
 - Use **Open presenter window** for a separate notes window on a second display.
+- Slides 18–23 also include copyable prompts, speaker notes, and diagrams; their content is in `src/app/research-slides.ts` and visuals in `src/app/research-content.tsx`.
 
 Notes and prompts open over the slide without changing its layout.
 The Next.js development indicator is disabled so it does not cover the presentation controls.

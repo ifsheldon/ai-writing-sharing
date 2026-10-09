@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AI × Research Writing",
   description:
-    "Practical suggestions for writing and revising research papers with AI. A 17-slide session for visualization and HCI researchers.",
+    "Practical suggestions for writing and revising research papers with AI. A 23-slide session for visualization and HCI researchers.",
 };
 
 export default function RootLayout({

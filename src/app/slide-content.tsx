@@ -5,6 +5,7 @@ import {
   FileText,
   FolderOpen,
 } from "lucide-react";
+import { ResearchContent } from "./research-content";
 import { TakeawayContent } from "./slide-takeaway";
 import type {
   ComparisonText,
@@ -153,6 +154,7 @@ function Sequence({
 }
 
 function Body({ body }: { body: SlideBody }) {
+  if (body.kind === "research") return <ResearchContent body={body} />;
   switch (body.kind) {
     case "source":
       return (

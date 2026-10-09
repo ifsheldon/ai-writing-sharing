@@ -1,7 +1,8 @@
 export type SlideSection =
   | "General suggestions"
   | "Writing pitfalls"
-  | "Applying the guides";
+  | "Applying the guides"
+  | "Beyond Writing Assistance: Using AI Critically in Research Writing";
 
 export type SlideId =
   | "source-lines"
@@ -20,7 +21,14 @@ export type SlideId =
   | "explain-qualifications"
   | "relevant-qualifications"
   | "review-draft"
-  | "revision-editing";
+  | "revision-editing"
+  | "thinking-partner"
+  | "literature-synthesis"
+  | "claim-verification"
+  | "critical-review"
+  | "citation-verification"
+  | "manuscript-consistency"
+  | "human-led-writing";
 
 export type SlidePoint = { title: string; text: string };
 export type SlideSource = { label: string; href: string };
@@ -31,6 +39,19 @@ export type ComparisonText =
   | { lead: string; emphasis: string; tail: string };
 
 export type SlideBody =
+  | {
+      kind: "research";
+      visual:
+        | "argument"
+        | "matrix"
+        | "claims"
+        | "review"
+        | "citations"
+        | "manuscript"
+        | "cycle";
+      points: SlidePoint[];
+      example: string;
+    }
   | { kind: "source"; lines: string[]; points: SlidePoint[] }
   | { kind: "reasons"; points: SlidePoint[] }
   | {
