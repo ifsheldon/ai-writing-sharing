@@ -32,6 +32,7 @@ export type SlideId =
 
 export type SlidePoint = { title: string; text: string };
 export type SlideSource = { label: string; href: string };
+export type SlideTakeaway = string | { lead: string; link: SlideSource };
 export type ComparisonPair = { before: string; after: string };
 
 export type SlideBody =
@@ -105,7 +106,7 @@ export type Slide = {
   subtitle: string;
   pitfall?: number;
   body: SlideBody;
-  takeaway: string;
+  takeaway: SlideTakeaway;
   prompt?: string;
   evidence: string;
   notes: string[];

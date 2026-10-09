@@ -56,6 +56,10 @@ a:focus-visible {
 a {
   color: var(--green);
 }
+.takeaway-link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 button {
   color: inherit;
 }
@@ -87,15 +91,11 @@ svg {
   letter-spacing: -0.015em;
   white-space: nowrap;
 }
-.toolbar-section {
-  color: var(--muted);
-  font-size: 12px;
-  margin-left: auto;
-}
 .toolbar-actions {
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-left: auto;
 }
 .icon-button,
 .toolbar-button,

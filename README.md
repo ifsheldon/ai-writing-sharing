@@ -22,6 +22,8 @@ It uses the full available slide area at both ratios and does not include a mobi
 
 ## Presenting
 
+The current section appears above the slide title.
+
 - Use the bottom progress markers or the slide overview to jump to a slide.
 - Use `ArrowLeft` / `P` and `ArrowRight` / `N` to navigate, or `Home` and `End` to reach the first and last slides.
 - Press `O` for the overview, `S` for speaker notes, and `F` for fullscreen.
@@ -36,7 +38,7 @@ The presenter window follows the active slide and resynchronizes after either wi
 Slide URLs include a stable fragment such as `#plain-writing`, so reloading or sharing that URL preserves the selected slide.
 The notes connection is shared by presentation windows on the same origin, so use one main deck window per origin when presenting.
 
-Illustrative examples are marked on the slides.
+Speaker notes identify illustrative examples and historical revisions.
 Speaker notes preserve the qualifications, source references, unused style examples, and full revision checklist from the outline.
 The final slide links to the three writing guides at the submodule revision used to prepare the talk.
 

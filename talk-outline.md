@@ -63,7 +63,7 @@ Explain three reasons for doing this:
 
 **Recommendation for our OpenAI workflow:** Use an Ultra model, such as GPT-6 Astra Ultra.
 
-1. **Let the agent initiate delegation.** In ChatGPT Work, other intelligence levels require an explicit request to use subagents, while Ultra can delegate suitable work on its own.
+1. **Let the agent initiate delegation.** In ChatGPT/Codex, other intelligence levels require an explicit request to use subagents, while Ultra models can delegate suitable work on their own.
    This includes assigning independent review work without a separate reminder each time.
 2. **Preserve your train of thought.** Remembering to request subagents shifts your attention from the paper to managing the agents.
    With Ultra, you can focus on what the paper should say and whether the text conveys it.
@@ -82,7 +82,7 @@ The author remains focused on the argument, emphasis, and final content.
 
 ### Slide 4 Ask for plain writing with the same meaning
 
-Ask the agent to follow [VIS Writing Style](vis-writing-guidelines/vis-writing-style.md).
+Ask the writing agent to follow the [VIS Writing Style](https://github.com/ifsheldon/vis-writing-guidelines/blob/main/vis-writing-style.md).
 The goal is to remove verbal overhead while retaining the actor, action, objects, quantities, conditions, and strength of the claim.
 
 **Copyable instruction:**

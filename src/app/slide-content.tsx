@@ -6,6 +6,7 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { ResearchContent } from "./research-content";
+import { TakeawayContent } from "./slide-takeaway";
 import type { Slide, SlideBody, SlidePoint } from "./slide-types";
 
 export function SlideContent({
@@ -42,9 +43,10 @@ export function SlideContent({
       <footer className="slide-footer">
         <div className="takeaway">
           <span>{slide.pitfall ? "The check" : "In practice"}</span>
-          <p>{slide.takeaway}</p>
+          <p>
+            <TakeawayContent takeaway={slide.takeaway} />
+          </p>
         </div>
-        <span className="evidence-label">{slide.evidence}</span>
       </footer>
     </article>
   );

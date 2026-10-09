@@ -43,7 +43,7 @@ export const slides: Slide[] = [
   {
     id: "paragraph-outline",
     section: "General suggestions",
-    title: "Keep the intended message beside the prose",
+    title: "Keep the intended core ideas beside the prose",
     shortTitle: "Outline beside the text",
     subtitle:
       "Write each paragraph’s outline in LaTeX comments before drafting.",
@@ -93,7 +93,7 @@ export const slides: Slide[] = [
       kind: "workflow",
       recommendation: "GPT-6 Astra Ultra",
       context:
-        "In ChatGPT Work, Ultra can initiate suitable delegation without a separate request.",
+        "In ChatGPT/Codex, Ultra models can initiate suitable delegation without a separate request.",
       steps: [
         {
           title: "Draft",
@@ -115,10 +115,10 @@ export const slides: Slide[] = [
       "After drafting or revising, have a subagent with fresh context review the text against our writing guidelines, then improve the draft based on its findings.",
     evidence: "OpenAI workflow recommendation",
     notes: [
-      "For this OpenAI workflow, recommend an Ultra model such as GPT-6 Astra Ultra. In ChatGPT Work, other intelligence levels require an explicit request to use subagents, while Ultra can delegate suitable work on its own.",
+      "For this OpenAI workflow, recommend an Ultra model such as GPT-6 Astra Ultra. In ChatGPT/Codex, other intelligence levels require an explicit request to use subagents, while Ultra models can delegate suitable work on their own.",
       "The practical benefit is preserving your train of thought. Remembering to request subagents shifts attention from the paper to managing agents. Set the expectation once and let the agent organize suitable review work as writing proceeds.",
       "Have a reviewer with fresh context check the draft and return findings to the writing agent. The writer can address gaps, unclear explanations, and other supported findings before returning the revised text.",
-      "Keep your attention on the argument, emphasis, and final content. The documented distinction between requested and proactive delegation is specific to ChatGPT Work.",
+      "Keep your attention on the argument, emphasis, and final content. The linked OpenAI documentation describes requested and proactive delegation in ChatGPT Work.",
     ],
     sources: [
       {
@@ -156,8 +156,13 @@ export const slides: Slide[] = [
         },
       ],
     },
-    takeaway:
-      "Check that the numbers, “may,” and consequential limitation survive.",
+    takeaway: {
+      lead: "Ask the writing agent to follow the",
+      link: {
+        label: "VIS Writing Style",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/main/vis-writing-style.md",
+      },
+    },
     prompt:
       "Read `vis-writing-guidelines/vis-writing-style.md` and follow it when drafting or editing, using plain words and concrete actions while preserving the original claims, quantities, conditions, and uncertainty.",
     evidence: "Illustrative pairs with the same meaning",
