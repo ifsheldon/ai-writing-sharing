@@ -42,7 +42,7 @@ export const slides: Slide[] = [
   {
     id: "paragraph-outline",
     section: "General suggestions",
-    title: "Keep the intended message beside the prose",
+    title: "Keep the intended core ideas beside the prose",
     shortTitle: "Outline beside the text",
     subtitle:
       "Write each paragraph’s outline in LaTeX comments before drafting.",
