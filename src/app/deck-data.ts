@@ -155,8 +155,13 @@ export const slides: Slide[] = [
         },
       ],
     },
-    takeaway:
-      "Check that the numbers, “may,” and consequential limitation survive.",
+    takeaway: {
+      lead: "Ask the writing agent to follow the",
+      link: {
+        label: "VIS Writing Style",
+        href: "https://github.com/ifsheldon/vis-writing-guidelines/blob/main/vis-writing-style.md",
+      },
+    },
     prompt:
       "Read `vis-writing-guidelines/vis-writing-style.md` and follow it when drafting or editing, using plain words and concrete actions while preserving the original claims, quantities, conditions, and uncertainty.",
     evidence: "Illustrative pairs with the same meaning",

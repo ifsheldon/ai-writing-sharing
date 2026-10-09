@@ -12,6 +12,7 @@ import {
   readPresenterSlideId,
   readSlideIdFromHash,
 } from "../presenter-notes-state";
+import { TakeawayContent } from "../slide-takeaway";
 import type { SlideId } from "../slide-types";
 
 export default function SpeakerNotesPage() {
@@ -62,7 +63,9 @@ export default function SpeakerNotesPage() {
       </header>
       <section className="presenter-notes-card">
         <h2 className="presenter-notes-label">Takeaway</h2>
-        <p className="notes-takeaway">{slide.takeaway}</p>
+        <p className="notes-takeaway">
+          <TakeawayContent takeaway={slide.takeaway} />
+        </p>
         <h2 className="presenter-notes-label">Speaker notes</h2>
         <ul className="notes-list">
           {slide.notes.map((note) => (

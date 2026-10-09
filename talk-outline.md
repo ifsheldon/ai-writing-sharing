@@ -82,7 +82,7 @@ The author remains focused on the argument, emphasis, and final content.
 
 ### Slide 4 Ask for plain writing with the same meaning
 
-Ask the agent to follow [VIS Writing Style](vis-writing-guidelines/vis-writing-style.md).
+Ask the writing agent to follow the [VIS Writing Style](https://github.com/ifsheldon/vis-writing-guidelines/blob/main/vis-writing-style.md).
 The goal is to remove verbal overhead while retaining the actor, action, objects, quantities, conditions, and strength of the claim.
 
 **Copyable instruction:**

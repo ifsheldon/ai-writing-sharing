@@ -22,6 +22,7 @@ import {
   readSlideIdFromHash,
 } from "./presenter-notes-state";
 import { SlideContent } from "./slide-content";
+import { TakeawayContent } from "./slide-takeaway";
 import type { Slide } from "./slide-types";
 
 type DialogKind = "overview" | "notes" | "prompt";
@@ -398,7 +399,9 @@ function SlideNotes({ slide }: { slide: Slide }) {
     <>
       <p className="notes-section">{slide.section}</p>
       <h3 className="notes-title">{slide.title}</h3>
-      <p className="notes-takeaway">{slide.takeaway}</p>
+      <p className="notes-takeaway">
+        <TakeawayContent takeaway={slide.takeaway} />
+      </p>
       <ul className="notes-list">
         {slide.notes.map((note) => (
           <li key={note}>{note}</li>
