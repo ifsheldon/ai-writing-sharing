@@ -516,34 +516,40 @@ export const slides: Slide[] = [
   {
     id: "separate-cases",
     section: "Writing pitfalls",
-    title: "Separate the cases without losing their conditions",
+    title: "Explain one case at a time",
     shortTitle: "Separate the cases",
     subtitle:
-      "Nested comparisons can hide a distinction even when every clause is accurate.",
+      "A long comparison can be accurate yet hard to follow when it combines several cases and conditions. Explain each case separately so readers can see what happened in each one. Keep the conditions that distinguish the cases.",
     pitfall: 8,
     body: {
       kind: "distinctions",
       sentence:
-        "The interface distinguishes records missing from the source dataset from records present in that dataset but excluded from the displayed subset.",
+        "The study distinguishes participants who did not attempt the task from those who attempted it but submitted no answer and those who submitted an answer but selected the wrong city.",
       cases: [
         {
-          title: "Missing from the source",
-          text: "The record is absent from the source dataset.",
+          title: "No attempt",
+          text: "The participant did not attempt the task.",
         },
         {
-          title: "Excluded from the display",
-          text: "The record is present in the source dataset but excluded from the displayed subset.",
+          title: "No answer",
+          text: "The participant attempted the task but submitted no answer.",
+        },
+        {
+          title: "Incorrect answer",
+          text: "The participant submitted an answer but selected the wrong city.",
         },
       ],
     },
     takeaway:
-      "Name the cases separately and keep both the source and display conditions.",
-    evidence: "Illustrative example · Writing pitfall 8",
+      "Can readers identify each case and its conditions without untangling a long sentence?",
+    evidence: "Illustrative continuation of Pitfall 7 · Writing pitfall 8",
     notes: [
-      "The dense sentence asks readers to hold two locations and two absence conditions inside one nested comparison.",
-      "A clearer sentence is: “The interface distinguishes two cases: a record is missing from the source dataset, or it is present but excluded from the displayed subset.” Present the cases on separate lines when speaking.",
-      "Keep both conditions: absence from the source dataset differs from presence in that dataset combined with exclusion from the display. Shortening the sentence must not merge these cases.",
-      "Ask whether cases, actors, or locations can be named separately without losing a necessary condition.",
+      "Pitfall 8 concerns several cases packed into one comparison. The sentence may be accurate, yet readers must keep track of which conditions belong together while working through its nested clauses.",
+      "This illustrative example continues the bar-chart study from Pitfall 7, where participants identify the city with the largest population. The three cases describe not attempting the task, attempting it without submitting an answer, and submitting an incorrect answer.",
+      "The dense version contains all three cases. The clearer version presents the same information as parallel entries with short names and a separate explanation for each case. No new study information is added.",
+      "Preserve the conditions: submitting no answer after attempting the task differs from not attempting it at all. An incorrect answer also requires that an answer was submitted. Reducing all three to “unsuccessful participants” would erase the distinctions.",
+      "The dense version is not factually wrong. This example shows a readability problem, not a universal ban on sentences that compare two things. Split a comparison when readers otherwise have to untangle several cases, actors, or conditions.",
+      "This is a hypothetical study example, not a report of observed participant behavior. Pitfall 7 supplies missing context; here the information is already present and needs a clearer organization.",
     ],
     sources: [
       {

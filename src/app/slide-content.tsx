@@ -369,7 +369,7 @@ function Body({ body }: { body: SlideBody }) {
         <div className="distinctions-layout">
           <div className="dense-sentence">
             <span className="content-label example-title-negative">
-              One sentence, two conditions
+              Cases packed into one sentence
             </span>
             <p>{body.sentence}</p>
           </div>

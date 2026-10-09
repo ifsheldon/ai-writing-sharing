@@ -368,20 +368,33 @@ In a real paper, use the actual task instructions and measures from the study ma
 
 ### Slide 13 Pitfall 8 Packing several distinctions into one comparison
 
-**Problem:** A sentence can be accurate but make its comparisons difficult to follow.
+**Core idea:** Explain one case at a time.
+A long comparison can be accurate yet hard to follow when it combines several cases and conditions.
+Explain each case separately so readers can see what happened in each one.
+Keep the conditions that distinguish the cases.
 
-**Illustrative dense version:**
+**Illustrative continuation of Pitfall 7:** Participants are asked to identify the city with the largest population in a bar chart.
 
-> The interface distinguishes records missing from the source dataset from records present in that dataset but excluded from the displayed subset.
+**Cases packed into one sentence:**
 
-**Clearer, preserving the two cases:**
+> The study distinguishes participants who did not attempt the task from those who attempted it but submitted no answer and those who submitted an answer but selected the wrong city.
 
-> The interface distinguishes two cases: a record is missing from the source dataset, or it is present but excluded from the displayed subset.
+**Cases stated separately:**
 
-Present the cases on separate lines when speaking.
-Keep both the source-dataset and displayed-subset conditions.
+- **No attempt:** The participant did not attempt the task.
+- **No answer:** The participant attempted the task but submitted no answer.
+- **Incorrect answer:** The participant submitted an answer but selected the wrong city.
 
-**Check:** Can the cases, actors, or locations be named separately without losing a condition?
+Both versions contain the same information.
+The revision gives each case a short name and explains it separately.
+Preserve the conditions that distinguish not attempting a task, attempting it without an answer, and submitting an incorrect answer.
+Calling all three “unsuccessful participants” would erase those distinctions.
+The dense version is accurate but makes readers unpack several nested clauses.
+A short, clear comparison does not always need to be split.
+This is a hypothetical study example, not a report of observed participant behavior.
+Pitfall 7 supplies missing context, while this pitfall reorganizes information that is already present.
+
+**Check:** Can readers identify each case and its conditions without untangling a long sentence?
 
 **Guide:** Pitfall 8.
 
