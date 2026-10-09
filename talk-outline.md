@@ -238,20 +238,34 @@ For example, one step produces the information required by the next, or an inter
 
 ### Slide 10 Pitfall 5 Ordering information without respecting what the reader needs first
 
-**Problem:** All the necessary ideas can be present while their order makes the reader reconstruct the explanation.
+**Core idea:** Finish explaining an idea before relying on it.
+Readers need definitions, assumptions, and evidence before they can interpret statements that depend on them.
+When a passage uses an idea and then returns to explain an unfinished part, readers must reconstruct the order themselves.
 
-**Illustrative sequence before:**
+**Illustrative methods passage before: definition → comparison → back to the definition**
 
-> Introduce groups → explain how analysts compare groups → return to how group membership is decided.
+> Runs with incorrect answers count as failures.
+> We compare failure rates between two agents.
+> Runs with no answer also count as failures.
 
-**Clearer sequence:**
+**Clearer order: complete the definition → make the comparison**
 
-> Explain the grouping problem → establish membership criteria → explain the comparison.
+> Runs with incorrect answers count as failures.
+> Runs with no answer also count as failures.
+> We compare failure rates between two agents.
 
-Readers need to know what the groups contain before they can interpret a comparison between them.
-The right order follows the needs of the explanation and does not always match implementation order.
+The comparison interrupts the definition.
+Keeping both failure criteria together lets readers know what the rates include.
+The revision keeps exactly the same three sentences and only changes their order.
+Unlike Pitfall 4, no missing logical relationship needs to be added here.
+The necessary information is present but reaches the reader too late.
+This is an illustrative example, not a report of actual evaluation criteria or measured results.
 
-**Check:** List what each idea depends on, then check that those prerequisites have been established.
+A deliberate preview may precede details when readers can recognize it as a preview.
+The comparison sentence is not inherently wrong, but it interrupts an ongoing definition in this methods passage.
+Choose the order that serves the explanation rather than assuming implementation order is always best.
+
+**Check:** Before moving on, check whether the reader has everything needed to understand the next statement.
 
 **Optional real example:** ContextProv explained differences in what agents receive before introducing the context scopes used to represent those differences.
 See E6, commit `45e8872`.

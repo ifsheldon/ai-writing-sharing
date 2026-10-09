@@ -77,7 +77,14 @@ export type SlideBody =
       afterLabel?: string;
       annotation?: string;
     }
-  | { kind: "sequence"; before: string[]; after: string[]; explanation: string }
+  | {
+      kind: "sequence";
+      beforeLabel: string;
+      afterLabel: string;
+      before: string[];
+      after: string[];
+      explanation: string;
+    }
   | {
       kind: "repair";
       promise: string;

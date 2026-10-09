@@ -309,12 +309,12 @@ function Body({ body }: { body: SlideBody }) {
       return (
         <div className="sequence-layout">
           <section>
-            <span className="content-label">The reader has to backtrack</span>
+            <span className="content-label">{body.beforeLabel}</span>
             <Sequence items={body.before} />
           </section>
           <section>
             <span className="content-label accent-label">
-              Establish what the next idea needs
+              {body.afterLabel}
             </span>
             <Sequence items={body.after} corrected />
           </section>

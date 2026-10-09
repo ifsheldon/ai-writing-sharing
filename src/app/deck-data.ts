@@ -386,32 +386,38 @@ export const slides: Slide[] = [
   {
     id: "reader-order",
     section: "Writing pitfalls",
-    title: "Establish what the reader needs first",
+    title: "Finish explaining an idea before relying on it",
     shortTitle: "Order ideas for the reader",
     subtitle:
-      "The right ideas can still force readers to reconstruct the explanation.",
+      "Readers need definitions, assumptions, and evidence before they can interpret statements that depend on them. When a passage uses an idea and then returns to explain an unfinished part, readers must reconstruct the order themselves.",
     pitfall: 5,
     body: {
       kind: "sequence",
+      beforeLabel: "Definition → comparison → back to the definition",
+      afterLabel: "Complete the definition → make the comparison",
       before: [
-        "Introduce groups",
-        "Explain their comparison",
-        "Return to membership criteria",
+        "Runs with incorrect answers count as failures.",
+        "We compare failure rates between two agents.",
+        "Runs with no answer also count as failures.",
       ],
       after: [
-        "Explain the grouping problem",
-        "Establish membership criteria",
-        "Explain the comparison",
+        "Runs with incorrect answers count as failures.",
+        "Runs with no answer also count as failures.",
+        "We compare failure rates between two agents.",
       ],
       explanation:
-        "Readers need to know what the groups contain before interpreting a comparison.",
+        "The comparison interrupts the definition. Keeping both failure criteria together lets readers know what the rates include.",
     },
     takeaway:
-      "List what each idea depends on, then establish those prerequisites first.",
+      "Before moving on, check whether the reader has everything needed to understand the next statement.",
     evidence: "Illustrative example · Writing pitfall 5",
     notes: [
-      "All necessary ideas may be present, yet the passage returns to an unfinished decision after explaining how it is used. Readers must reconstruct the order themselves.",
-      "Establish membership criteria before explaining the comparison. Choose the order that serves the explanation; it need not follow implementation order.",
+      "Pitfall 5 concerns the order in which information reaches the reader. Definitions, assumptions, and evidence establish the basis for later statements. A passage may contain everything necessary but interrupt an explanation, use it, and only later return to finish it.",
+      "This illustrative methods passage starts defining failure, moves to comparing failure rates, and then adds a second failure criterion. The reader must revise their understanding of what those rates include after reaching the third sentence.",
+      "The revision keeps exactly the same three sentences. It moves the no-answer criterion before the comparison so the complete definition is available when the comparison is introduced. No missing reason or new information has been added.",
+      "This distinguishes the example from Pitfall 4. There, the logical relationship was missing and needed an explanation. Here, the necessary information is already present but appears too late.",
+      "A deliberate preview can precede details when readers can recognize it as a preview. The comparison sentence is not inherently wrong. In this methods explanation, it interrupts an ongoing definition. The lesson is to order information around what readers need, not to require implementation order or forbid an overview.",
+      "The agent comparison is illustrative. It does not report actual evaluation criteria or measured results.",
       "An optional real example is ContextProv’s introduction of context scopes. It explained differences in what agents receive before naming the scopes representing those differences. Evidence E6 is commit 45e88722fa609437b6922dc0e97271f4f31c7484, source/4-problem-modeling.tex, 9 September 2026.",
     ],
     sources: [
