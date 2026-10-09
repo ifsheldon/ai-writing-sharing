@@ -433,24 +433,32 @@ The point is to establish what the method does before qualifying it.
 
 ### Slide 15 Pitfall 10 Adding out-of-place qualifications
 
-**Problem:** A limitation can be true and specific while answering a different question from the paragraph.
+**Problem:** A qualification should help readers understand the current claim or feature.
+Calling an unrelated missing capability a limitation can make a feature sound deficient even when it fulfills its stated purpose.
+Keep qualifications that clarify the claim’s scope or prevent a relevant misunderstanding, and remove those that introduce a different requirement.
+
+Pitfall 9 concerns explaining what the method does before adding a needed qualification.
+Pitfall 10 concerns an unnecessary qualification that does not help explain the current claim or feature.
 
 **Illustrative context:** The paragraph explains how linked selection connects a group summary to its observations.
 
 **Distracting qualification:**
 
-> Selecting a bar highlights the corresponding observations in the scatterplot, but it does not explain why the groups differ.
+> Selecting a bar highlights the corresponding observations in the scatterplot, ~~but it does not explain why the groups differ.~~
 
 **Focused sentence:**
 
 > Selecting a bar highlights the corresponding observations in the scatterplot.
 
 The removed clause changes the subject from inspecting observations to explaining causes.
-It may belong in a discussion of causal interpretation if the paper makes claims about that capability.
-It does not follow merely from describing linked selection.
+The feature is presented as a way to highlight the observations behind a summary.
+Explaining why groups differ is a separate capability that this passage does not claim.
+Its absence does not establish a shortcoming in the linked-selection behavior being described.
+Irrelevance does not make the statement itself false, but presenting it as a limitation can imply an unsupported expectation about what the feature should do.
 
-**Check:** What would readers misunderstand about the current claim without this qualification?
-If the answer concerns a different capability, reconsider its placement.
+**Check:** Is each qualification relevant to the current claim or focus?
+Keep it when it clarifies the claim's scope or prevents a relevant misunderstanding.
+Remove it from this passage when it only introduces an unrelated capability or requirement.
 
 **Guide:** Pitfall 10.
 

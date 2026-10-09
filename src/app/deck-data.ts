@@ -605,27 +605,30 @@ export const slides: Slide[] = [
     title: "Keep qualifications relevant to the current claim",
     shortTitle: "Keep qualifications relevant",
     subtitle:
-      "A true limitation can still interrupt a paragraph by changing the question.",
+      'AI likes to add qualifications, like " this does not do X." but they sometimes add irrelevant ones. A qualification should help readers understand the current claim or feature in focus. Irrelevant qualifications can distract readers or introduce confusion and misunderstanding. Keep qualifications that clarify the claim’s scope or prevent a relevant misunderstanding, and remove those irrelevant to the current claim.',
     pitfall: 10,
     body: {
       kind: "comparison",
       beforeLabel: "Distracting qualification",
       afterLabel: "Focused explanation",
-      before:
-        "Selecting a bar highlights the corresponding observations in the scatterplot, but it does not explain why the groups differ.",
+      before: {
+        lead: "Selecting a bar highlights the corresponding observations in the scatterplot, ",
+        emphasis: "but it does not explain why the groups differ.",
+        tail: "",
+      },
       after:
         "Selecting a bar highlights the corresponding observations in the scatterplot.",
       annotation:
         "The paragraph explains how linked selection connects a summary to its observations.",
     },
-    takeaway:
-      "What would readers misunderstand about this claim without the qualification?",
+    takeaway: "Is each qualification relevant to the current claim or focus?",
     evidence: "Illustrative example · Writing pitfall 10",
     notes: [
       "The paragraph explains how linked selection connects a group summary to individual observations. The removed clause changes the subject from inspecting observations to explaining causes.",
-      "The limitation can be accurate and specific. Its problem here is relevance and placement, unlike the vague defensiveness in pitfall 9.",
-      "A causal limitation may belong in a discussion of causal interpretation if the paper makes claims about that capability. It does not follow merely from describing linked selection.",
-      "Ask what readers would misunderstand about the current claim without the qualification. If the answer concerns a different capability, reconsider its placement.",
+      "The feature is presented as a way to highlight the observations behind a summary. Explaining why groups differ is a separate capability that this passage does not claim. Its absence does not establish a shortcoming in the linked-selection behavior being described.",
+      "Do not automatically label an unrelated qualification a true limitation of the current feature. Irrelevance does not make the statement itself false, but presenting it as a limitation can imply an unsupported expectation about what the feature should do.",
+      "Pitfall 9 concerns explaining what the method does before adding a needed qualification. Pitfall 10 concerns an unnecessary qualification that does not help explain the current claim or feature.",
+      "Check whether each qualification is relevant to the current claim or focus. Keep it when it clarifies the claim's scope or prevents a relevant misunderstanding. Remove it from this passage when it only introduces an unrelated capability or requirement.",
     ],
     sources: [
       {

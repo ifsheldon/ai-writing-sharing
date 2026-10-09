@@ -386,6 +386,11 @@
   background: #f6d6d1;
   font-weight: inherit;
 }
+:where(.slide[data-pitfall="10"]) .comparison-word-emphasis {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: line-through;
+}
 .logical-connection {
   background: #acd2f4;
   color: inherit;
