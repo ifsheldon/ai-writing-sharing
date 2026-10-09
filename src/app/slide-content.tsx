@@ -5,6 +5,7 @@ import {
   FileText,
   FolderOpen,
 } from "lucide-react";
+import { ResearchContent } from "./research-content";
 import type { Slide, SlideBody, SlidePoint } from "./slide-types";
 
 export function SlideContent({
@@ -126,6 +127,7 @@ function Sequence({
 }
 
 function Body({ body }: { body: SlideBody }) {
+  if (body.kind === "research") return <ResearchContent body={body} />;
   switch (body.kind) {
     case "source":
       return (

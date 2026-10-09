@@ -1,3 +1,4 @@
+import { researchSlides } from "./research-slides";
 import type { Slide } from "./slide-types";
 
 export const slides: Slide[] = [
@@ -682,4 +683,5 @@ export const slides: Slide[] = [
       },
     ],
   },
+  ...researchSlides,
 ];
